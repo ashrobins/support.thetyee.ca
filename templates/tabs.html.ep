@@ -1,0 +1,48 @@
+<ul class="nav nav-tabs">
+    <li id="monthly" class="active"><a href="#form-monthly" data-toggle="tab">Monthly</a></li>
+    <li id="onetime" ><a href="#form-onetime" data-toggle="tab">One-time</a></li>
+    <li id="offline" ><a href="#form-offline" data-toggle="tab">Give by mail</a></li>
+</ul>
+<br />
+<div class="tab-content">
+    <div class="tab-pane active" id="form-monthly">
+        <p>Please select an amount for your monthly contribution:</p>
+        <div class="btn-group" data-toggle="buttons">
+            % for my $p ( @$plans ) {
+            <label rel="popover" class="btn btn-primary" data-trigger="hover" data-container="body" data-placement="right" data-content="<%= $p->description->text %>" data-original-title="<%= $p->name->text %>" title="">
+                <input type="radio" name="options" id="<%= $p->plan_code->text %>" value="<%= $p->plan_code->text %>"> $<%= $p->unit_amount_in_cents->CAD->text / 100 %>
+            </label>
+
+            % }
+        </div>
+
+        <div id="recurly-subscribe" style="display:none;">
+        </div>
+
+    </div>
+    <div class="tab-pane" id="form-onetime">
+        <form role="form" id="form-onetime">
+            <p>Please enter the amount for your one-time contribution:</p>
+            <div class="form-group">
+                <input type="hidden" id="onetime" name="onetime" value="true" />
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter a round number, e.g., 25">
+                    <span class="input-group-addon">.00</span>
+                </div>
+                <p class="help-block">Please consider a smaller monthly contribution to help build The Tyee's National Desk.</p>
+            </div>
+            <button type="submit" class="btn btn-default">Continue &raquo;</button>
+        </form>
+        % if ( $amount ) { 
+        <div id="payment-onetime-confirmation">
+            <p class="alert warning">You are about to make a one-time contribution of $<%= $amount %>.00  <span class="smaller">(<a id="amount-change" href="#">Change</a>)</span></p>
+            
+        </div>
+                % } 
+        <div id="transactionForm"></div>
+    </div>
+    <div class="tab-pane" id="form-offline">
+                <p>Offline form copy</p>
+    </div>
+</div>

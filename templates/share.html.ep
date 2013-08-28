@@ -1,0 +1,7 @@
+% layout 'default';
+% title 'Share the news';
+
+%= include 'header'
+
+<h3>You're done!</h3>
+<h4>Share the news!</h4>

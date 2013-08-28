@@ -1,0 +1,3 @@
+[submodule "public"]
+	path = public
+	url = git@github.com:phillipadsmith/support.thetyee.ca-static.git

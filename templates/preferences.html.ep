@@ -1,0 +1,32 @@
+% layout 'default';
+% title 'Set your preferences';
+
+%= include 'header'
+<h3>Step 2 of 2: Almost there!</h3>
+<h4>Please set your preferences</h4>
+<p>
+Welcome Builder! Now that you're part of The Tyee team, we'd like to get to know you a little better. Just a few questions left to complete your registration.  
+</p>
+
+%= form_for preferences => (method => 'POST') => begin
+<hr />
+%= tag 'label', for => 'pref_frequency', => 'Sign up for The Tyee\'s free eNewsletter to receive the articles you help fund directly in your inbox:'
+<br />
+Daily headlines
+%= radio_button pref_frequency => 'Daily headlines', id => 'daily', checked => 1
+Weekly headlines
+%= radio_button pref_frequency => 'Weekly headlines', id => 'weekly'
+No thanks
+%= radio_button pref_frequency => 'No thanks', id => 'noThanks'
+I already subscribe
+%= radio_button pref_frequency => 'I already subscribe', id => 'alreadySubscribe'
+<hr />
+%= tag 'label', for => 'pref_anonymous', => 'We like to sometimes acknowledge our supporters publicly. May we acknowledge your contribution?'
+<br />
+Yes
+%= radio_button pref_anonymous => 'Yes', id => 'anon-no', checked => 1
+No
+%= radio_button pref_anonymous => 'No', id => 'anon-yes'
+<hr />
+%= submit_button "Set my preferences", id => 'submit'
+% end
