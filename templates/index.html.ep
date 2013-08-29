@@ -101,5 +101,6 @@
                 $('#transactionForm').hide();
                 $('#payment-onetime-confirmation').hide();
             });
+            $('div#form-monthly input')[2].click()
 %   end
 % end

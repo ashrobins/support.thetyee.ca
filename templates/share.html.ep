@@ -3,5 +3,9 @@
 
 %= include 'header'
 
-<h3>You're done!</h3>
-<h4>Share the news!</h4>
+<div id="content-inner">
+
+    <h3>You're done!</h3>
+    <h4>Share the news!</h4>
+    <p>Content...</p>
+</div>
