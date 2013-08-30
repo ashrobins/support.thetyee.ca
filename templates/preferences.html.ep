@@ -4,8 +4,8 @@
 %= include 'header'
 
 <div id="content-inner">
-    <h3>Step 2 of 2: Almost there!</h3>
-    <p>Sign up for The Tyee&#39;s free eNewsletter to receive the articles you help fund directly in your inbox.</p>
+    <h3>Step 2 of 2: Almost there, <%= $record->{'first_name'} %>! Set your preferences...</h3>
+    <p>Sign up for The Tyee's free eNewsletter to receive the articles you help fund directly in your inbox:</p>
     <form action="preferences" method="POST" role="form">
         <div class="form-group">
             <label for="pref_frequency">Subscription preference</label>
@@ -41,7 +41,7 @@
                 </label>
             </div>        
             <div class="submit-button">
-                <input class="btn btn-success btn-lg" id="submit" type="submit" value="Set my preferences »" />
+                <input class="btn btn-success btn-lg" id="submit" type="submit" value="Finish »" />
             </div>
         </div>
     </form>

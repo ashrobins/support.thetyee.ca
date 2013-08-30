@@ -5,7 +5,7 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="form-monthly">
-        <p class="alert alert-warning"><i class="glyphicon glyphicon-exclamation-sign">&nbsp;</i>Please confirm the amount of your monthly contribution:</p>
+        <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i>Choose your monthly level.</p>
         <div class="btn-group" data-toggle="buttons">
             % for my $p ( @$plans ) {
             <label rel="popover" class="btn btn-primary btn-lg" data-trigger="hover" data-container="body" data-placement="top" data-content="<%= $p->description->text %>" data-original-title="<%= $p->name->text %>" title="">
@@ -20,8 +20,11 @@
 
     </div>
     <div class="tab-pane" id="form-onetime">
-        <form role="form" id="form-onetime">
-            <p class="alert alert-warning"><i class="glyphicon glyphicon-exclamation-sign">&nbsp;</i>Please enter the amount for your one-time contribution:</p>
+        <form role="form" id="form-onetime" method="POST">
+            <% if ( $error ) { %>
+            <p class="alert alert-danger"><i class="glyphicon glyphicon-exclamation-sign">&nbsp;</i>Please enter a whole number. No decimal places or other characters, please.</p>
+            <% } %>
+            <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i>Enter your one-time amount.</p>
             <div class="form-group">
                 <input type="hidden" id="onetime" name="onetime" value="true" />
                 <div class="input-group">
@@ -29,7 +32,7 @@
                     <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter a round number, e.g., 25">
                     <span class="input-group-addon">.00</span>
                 </div>
-                <p class="help-block">Please consider a smaller monthly contribution to help build The Tyee's National Desk.</p>
+                <p class="help-block">Or, consider becoming a <a href="/" id="link-tab-monthly">sustaining monthly supporter</a> for less than the cost of a newspaper subscription.</p>
             </div>
             <button type="submit" class="btn btn-success btn-lg">Continue &raquo;</button>
         </form>
@@ -42,9 +45,17 @@
         <div id="transactionForm"></div>
     </div>
     <div class="tab-pane" id="form-offline">
-        Prefer to give a one-time gift?
-        No problem at all (and thank you!). Please get in touch with us to arrange payment with cheque or credit card.
-
-
+        <h3>Don't trust the Internet? Can't stand credit cards? We get it.</h3> 
+        <p> Here's how to support The Tyee without ever touching your keyboard.</p>
+        <p><strong>Option 1: Register with your credit card by phone:</strong></p>
+        <p>Call 604-689-7489, Monday - Friday, 10 am - 5 pm PST.</a>
+        <p><strong>Option 2: Send us a cheque (or monthly post-dated cheques):</strong></p>
+        <p>Cheques can be made out to Countercurrent Media Ltd. and mailed to:</p>
+        <p>
+        The Tyee<br />
+        PO Box 88484<br />
+        Vancouver, BC V6A 4A7<br />
+        </p>
+        <p>Please include with your cheque your full name, return address, phone number and email, plus indicate whether you would like your contribution to remain anonymous.</p>
     </div>
 </div>

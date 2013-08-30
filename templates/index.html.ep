@@ -16,8 +16,10 @@
                 currency: 'CAD'
             });
 
-            if ( amount ) {
+            if ( onetime ) {
                 $('#onetime a:last').tab('show');
+            };
+            if ( amount ) {
                 showTransactionForm();
                 $('form#form-onetime').hide();
             };
@@ -100,6 +102,10 @@
                 $('form#form-onetime').show();
                 $('#transactionForm').hide();
                 $('#payment-onetime-confirmation').hide();
+            });
+            $('a#link-tab-monthly').on('click', function( event ) {
+                event.preventDefault();
+                $('#monthly a:last').tab('show');
             });
             $('div#form-monthly input')[2].click()
 %   end

@@ -5,7 +5,45 @@
 
 <div id="content-inner">
 
-    <h3>You're done!</h3>
-    <h4>Share the news!</h4>
-    <p>Content...</p>
+    <h3>You're done! Share the news?</h3>
+    <p>Welcome to the team, <%= $transaction_details->{'first_name'} %>! So nice to have you. Keep an eye on your inbox for a receipt and welcome message within the next 24 hours.
+    </p>
+    <p> 
+Now amplify your impact by encouraging your friends to join! 
+    </p>
+    <br />
+        <div style="float: left; with: 50%; margin-right: 20px;"><a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-count="none" data-size="large" data-text="Does it worry you only 1% of CDN media are independent? It does me. That's why I support @TheTyee. You can too! http://bit.ly/I6kKxf">Tweet</a></div>
+        <div class="fb-like" data-href="http://bit.ly/I6kKxf" data-width="300" data-action="recommend" data-show-faces="true" data-send="true"></div>
+<hr class="soften" />
+    <div class="well" id="transactiondetails">
+        <h4>Transaction Confirmation Details</h4>
+        <dl class="dl-horizontal">
+          <dt>Your name</dt>
+          <dd><%= $transaction_details->{'first_name'} . ' ' . $transaction_details->{'last_name'} %></dd>
+          <dt>Your email</dt>
+          <dd><%= $transaction_details->{'email'} %></dd>
+          <dt>Amount</dt>
+          <dd>$<%= $transaction_details->{'amount_in_cents'} / 100 %>
+          <% if ( $transaction_details->{'plan_code'} ) { %>
+          / every month
+          <% } else { %>
+          / one time
+          <% } %>
+          </dd>
+        </dl>
+        <p>Please give your transaction details a quick review. If there's anything wrong, just let us know by <a href="http://www.google.com/recaptcha/mailhide/d?k=01Lpo-7rwiM1MAnRgeZ5aaqA==&c=yGPyHyFeLT7FyKm1p8ePC5O5yYHihWV1fDsc7V5i1ME=">email</a> or by calling us at 604-689-7489.
+    </div>
+    <div>
+        <p>Done telling the world? <a href="http://thetyee.ca">Head back to TheTyee.ca</a></p>
+    </div>
 </div>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=115808375175879";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

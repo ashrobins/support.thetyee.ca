@@ -20,7 +20,7 @@
     <div class="container" id="content">
         <%= content %>
 
-            %= include 'footer'
+         %= include 'footer'
     </div><!-- /.container -->
         %= include 'footer_scripts'
     </body>

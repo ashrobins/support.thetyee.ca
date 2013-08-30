@@ -122,10 +122,19 @@ helper recurly_get_billing_details => sub {
     return $dom;
 };
 
-get '/' => sub {
+any [qw(GET POST)] => '/' => sub {
     my $self    = shift;
     my $onetime = $self->param( 'onetime' );
     my $amount  = $self->param( 'amount' );
+    if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
+        $self->flash({ 
+                error => 'Amount needs to be a whole number',
+                onetime => 'onetime',
+            });
+        $self->param({ amount => '0' });
+        $amount = '';
+        $self->redirect_to('index');
+    };
     my $amount_in_cents;
     if ( $amount ) {
         $amount_in_cents = $amount * 100;
@@ -140,8 +149,9 @@ get '/' => sub {
         {   
             plans       => $plans,
             amount      => $amount,
-            onetime     => $onetime,
+            onetime     => $onetime || $self->flash('onetime'),
             recurly_sig => $recurly_sig,
+            error       => $self->flash('error'),
         }
     );
     $self->render( 'index' );
@@ -161,7 +171,7 @@ post '/successful_transaction' => sub {
         = $self->recurly_get_account_code( $dom->at( 'account' ) );
     my $account      = $self->recurly_get_account_details( $account_code );
     my $billing_info = $self->recurly_get_billing_details( $account_code );
-    my $transactions_details = {
+    my $transaction_details = {
         email      => $account->at( 'email' )->text,
         first_name => $account->at( 'first_name' )->text,
         last_name  => $account->at( 'last_name' )->text,
@@ -180,7 +190,7 @@ post '/successful_transaction' => sub {
         ? $dom->at( 'plan plan_code' )->text
         : '',
     };
-    my $result = $self->find_or_new( $transactions_details );
+    my $result = $self->find_or_new( $transaction_details );
     $self->stash(
         {   
             result        => $result,
@@ -188,18 +198,19 @@ post '/successful_transaction' => sub {
     );
     $self->flash(
         {   
-            transactions_details => $transactions_details,
+            transaction_details => $transaction_details,
         }
     );
     $self->redirect_to( 'preferences' );
 } => 'success';
 
-any '/preferences' => sub {
+any [qw(GET POST)] => '/preferences' => sub {
     my $self   = shift;
-    my $record = $self->flash( 'transactions_details' );
+    my $record = $self->flash( 'transaction_details' );
     if ( $self->req->method eq 'POST' && $record ) { # Submitted form
         my $update = $self->find_or_new( $record );
         $update->update( $self->req->params->to_hash );
+        $self->flash({ transaction_details => $record });
         $self->redirect_to( 'share' );
     }
     else { # First request, or error
@@ -210,15 +221,15 @@ any '/preferences' => sub {
                 errors => $errors,
             }
         );
-        $self->flash( { transactions_details => $record } );
+        $self->flash( { transaction_details => $record } );
         $self->render( 'preferences' );
     }
 } => 'set_preferences';
 
 get '/share' => sub {
     my $self = shift;
-    my $transactions_details = $self->flash('transactions_details');
-    $self->stash( { transactions_details => $transactions_details } );
+    my $transaction_details = $self->flash('transaction_details');
+    $self->stash( { transaction_details => $transaction_details } );
     $self->render( 'share' );
 } => 'share';
 
