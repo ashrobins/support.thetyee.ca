@@ -1,0 +1,48 @@
+% layout 'default';
+% title 'Set your preferences';
+
+%= include 'header'
+
+<div id="content-inner">
+    <h3>Step 2 of 2: Almost there, <%= $record->{'first_name'} %>! Set your preferences...</h3>
+    <p>Sign up for The Tyee's free eNewsletter to receive the articles you help fund directly in your inbox:</p>
+    <form action="preferences" method="POST" role="form">
+        <div class="form-group">
+            <label for="pref_frequency">Subscription preference</label>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active" for="daily">
+                    <input checked="1" id="daily" name="pref_frequency" type="radio" value="Daily headlines" />
+                    Daily headlines
+                </label>                
+                <label class="btn btn-primary" for="daily">
+                    <input id="weekly" name="pref_frequency" type="radio" value="Weekly headlines" />
+                    Weekly headlines
+                </label>                
+                <label class="btn btn-primary" for="daily">
+                    <input id="noThanks" name="pref_frequency" type="radio" value="No thanks" />
+                    No thanks
+                </label>                
+                <label class="btn btn-primary" for="daily">
+                    <input id="alreadySubscribe" name="pref_frequency" type="radio" value="I already subscribe" />
+                    I already subscribe
+                </label>
+            </div>
+        </div>       
+        <div class="form-group">
+            <label for="pref_anonymous">We like to sometimes acknowledge our supporters publicly. May we acknowledge your contribution?</label>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary bt-lg active" for="anon-no">
+                    <input checked="1" id="anon-no" name="pref_anonymous" type="radio" value="Yes" />
+                    Yes
+                </label>            
+                <label class="btn btn-primary bt-lg" for="anon-yes">
+                    <input id="anon-yes" name="pref_anonymous" type="radio" value="No" />
+                    No thanks
+                </label>
+            </div>        
+            <div class="submit-button">
+                <input class="btn btn-success btn-lg" id="submit" type="submit" value="Finish »" />
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,6 @@
+%syntax-version=1.0.0-b2
+%project=remote
+%uri=https://github.com/phillipadsmith/support.thetyee.ca.git
+
+schema 2013-08-25T23:26:30Z Phillip Smith <ps@phillipadsmith.com> # Add schema for builders
+people [schema] 2013-08-25T23:32:04Z Phillip Smith <ps@phillipadsmith.com> # Add people for builders
