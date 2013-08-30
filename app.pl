@@ -144,7 +144,7 @@ any [qw(GET POST)] => '/' => sub {
         'transaction[amount_in_cents]' => $amount_in_cents,
     };
     my $recurly_sig = $self->recurly_get_signature( $options );
-    my $plans       = $self->recurly_get_plans( 'national' );
+    my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
     $self->stash(
         {   
             plans       => $plans,
