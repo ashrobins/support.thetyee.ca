@@ -1,6 +1,3 @@
 {
-    "app_version"               : "0.1.0",
-    "static_asset_path"         : "http://static.apps.thetyee.ca/support/v0.1.0",
-    "remote_inc_path"           : "",
-    "cache_name"                : ""
+    "app_version"               : "0.1.0"
 }
