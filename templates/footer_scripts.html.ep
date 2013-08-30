@@ -1,8 +1,8 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/ui/js/jquery.min.js"><\/script>')</script>
-        <script src="/ui/js/bootstrap.min.js"></script>
-        <script src="/ui/js/respond.min.js"></script>
-        <script src="/ui/js/recurly.min.js"></script>
+        <script>window.jQuery || document.write('<script src="<%= $config->{'static_asset_path'} %>/ui/js/jquery.min.js"><\/script>')</script>
+        <script src="<%= $config->{'static_asset_path'} %>/ui/js/bootstrap.min.js"></script>
+        <script src="<%= $config->{'static_asset_path'} %>/ui/js/respond.min.js"></script>
+        <script src="<%= $config->{'static_asset_path'} %>/ui/js/recurly.min.js"></script>
         <%= content_for 'javascript' %>
         % if ( $self->app->mode eq 'production' ) {
         <!--Google Analytics: change UA-XXXXX-X to be your site's ID.-->

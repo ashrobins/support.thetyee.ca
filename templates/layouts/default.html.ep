@@ -10,8 +10,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link href="/ui/css/styles.css" rel="stylesheet" media="screen">
-    <script src="/ui/js/modernizr.js"></script>
+    <link href="<%= $config->{'static_asset_path'} %>/ui/css/styles.css" rel="stylesheet" media="screen">
+    <script src="<%= $config->{'static_asset_path'} %>/ui/js/modernizr.js"></script>
 </head>
 <body>
     <!--[if lt IE 7]>
