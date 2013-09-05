@@ -38,7 +38,7 @@
         </form>
         % if ( $amount ) { 
         <div id="payment-onetime-confirmation">
-            <p class="alert alert-success">You are about to make a one-time contribution of $<%= $amount %>.00  <span class="smaller">(<a id="amount-change" href="#">Change</a>)</span></p>
+            <p class="alert alert-success"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i>You are about to make a one-time contribution of $<%= $amount %>.00  <span class="smaller">(<a id="amount-change" href="#">Change</a>)</span></p>
 
         </div>
         % } 
@@ -58,4 +58,6 @@
         </p>
         <p>Please include with your cheque your full name, return address, phone number and email, plus indicate whether you would like your contribution to remain anonymous.</p>
     </div>
+    <hr class="soften" />
+    <p><i class="glyphicon glyphicon-lock">&nbsp;</i><strong>Your transaction is secure.</strong> The Tyee uses industry-standard SSL encryption to secure your connection. Your transaction is then processed securely by our payment processors, Recurly and Beanstream.</p>
 </div>

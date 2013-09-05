@@ -4,12 +4,20 @@
         <script src="<%= $config->{'static_asset_path'} %>/ui/js/respond.min.js"></script>
         <script src="<%= $config->{'static_asset_path'} %>/ui/js/recurly.min.js"></script>
         <%= content_for 'javascript' %>
-        % if ( $self->app->mode eq 'production' ) {
-        <!--Google Analytics: change UA-XXXXX-X to be your site's ID.-->
+        % if ( $self->app->mode eq 'production' ) { # only run analytics on production
+        <!--Google Analytics-->
         <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='//www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-         </script>
+        <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-169022-1']);
+          _gaq.push(['_setDomainName', 'thetyee.ca']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
        % }
