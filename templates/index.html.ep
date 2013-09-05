@@ -1,5 +1,5 @@
 % layout 'default';
-% title 'Welcome';
+% title 'Support fact-based independent journalism -- The Tyee';
 
 %= include 'header'
 %= include 'tabs'

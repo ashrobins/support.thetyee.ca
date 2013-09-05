@@ -1,5 +1,5 @@
 % layout 'default';
-% title 'Share the news';
+% title 'Share the news -- The Tyee';
 
 %= include 'header'
 
