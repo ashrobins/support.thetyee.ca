@@ -2,6 +2,6 @@
 
 BEGIN;
 
-    DROP SCHEMA builders;
+    DROP schema support;
 
 COMMIT;
