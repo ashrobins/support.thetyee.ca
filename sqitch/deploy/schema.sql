@@ -1,7 +1,7 @@
 -- Deploy schema
 
 BEGIN;
-    
-    CREATE SCHEMA builders;
+
+    CREATE schema support;
 
 COMMIT;
