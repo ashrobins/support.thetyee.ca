@@ -5,7 +5,7 @@ use Data::Dumper;
 use Mojo::Util qw(b64_encode url_escape url_unescape hmac_sha1_sum);
 use Mojo::URL;
 use Try::Tiny;
-use Builders::Schema;
+use Support::Schema;
 
 my $config = plugin 'JSONConfig';
 
@@ -26,7 +26,7 @@ my $privatekey = $config->{'privatekey'};
 my $API        = 'https://' . $apikey . ':@' . $domain;
 
 helper schema => sub {
-    my $schema = Builders::Schema->connect( $config->{'pg_dsn'},
+    my $schema = Support::Schema->connect( $config->{'pg_dsn'},
         $config->{'pg_user'}, $config->{'pg_pass'}, );
     return $schema;
 };
@@ -39,7 +39,7 @@ helper find_or_new => sub {
     try {
         $result = $dbh->txn_do(
             sub {
-                my $rs = $dbh->resultset( 'Person' )->find_or_new( {%$doc} );
+                my $rs = $dbh->resultset( 'Transaction' )->find_or_new( {%$doc} );
                 unless ( $rs->in_storage ) {
                     $rs->insert;
                 }
@@ -126,10 +126,12 @@ any [qw(GET POST)] => '/' => sub {
     my $self    = shift;
     my $onetime = $self->param( 'onetime' );
     my $amount  = $self->param( 'amount' );
+    my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
     if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
         $self->flash({ 
                 error => 'Amount needs to be a whole number',
                 onetime => 'onetime',
+                campaign => $campaign,
             });
         $self->param({ amount => '0' });
         $amount = '';
@@ -154,11 +156,13 @@ any [qw(GET POST)] => '/' => sub {
             error       => $self->flash('error'),
         }
     );
+    $self->flash( campaign => $campaign );
     $self->render( 'index' );
 } => 'index';
 
 post '/successful_transaction' => sub {
     my $self          = shift;
+    my $campaign      = $self->flash('campaign');
     my $recurly_token = $self->param( 'recurly_token' );
     # Request object from Recurly based on token
     my $res
@@ -189,6 +193,7 @@ post '/successful_transaction' => sub {
         plan_code => $dom->at( 'plan plan_code' )
         ? $dom->at( 'plan plan_code' )->text
         : '',
+        campaign => $campaign,
     };
     my $result = $self->find_or_new( $transaction_details );
     $self->stash(
