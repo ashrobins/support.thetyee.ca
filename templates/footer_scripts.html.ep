@@ -26,7 +26,7 @@
             ga('ecommerce:addTransaction', {
                     'id': '<%= $record->{'id'} %>', // Transaction ID. Required.
                     'affiliation': '<%= $record->{'campaign'} %>',  // Affiliation or store name.
-                    'revenue': '<%= $record->{'amount_in_cents'} * 100 %>'  // Grand Total.
+                    'revenue': '<%= $record->{'amount_in_cents'} / 100 %>'  // Grand Total.
             });
             ga('ecommerce:send');
         </script>

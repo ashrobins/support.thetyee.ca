@@ -144,6 +144,7 @@ any [qw(GET POST)] => '/' => sub {
     my $options = { # RecurlyJS signature options
         'transaction[currency]'        => 'CAD',
         'transaction[amount_in_cents]' => $amount_in_cents,
+        'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
     };
     my $recurly_sig = $self->recurly_get_signature( $options );
     my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
@@ -196,14 +197,11 @@ post '/successful_transaction' => sub {
         campaign => $campaign,
     };
     my $result = $self->find_or_new( $transaction_details );
-    $self->stash(
-        {   
-            result        => $result,
-        }
-    );
+    $transaction_details->{'id'} = $result->id;
     $self->flash(
         {   
             transaction_details => $transaction_details,
+            result        => $result,
         }
     );
     $self->redirect_to( 'preferences' );
