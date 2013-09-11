@@ -17,6 +17,18 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
           })();
-
         </script>
+        % # Provide e-commerce data on successful transactions
+        %   if ( $self->req->url->to_abs->path eq '/preferences' && $record ) { 
+        <script type="text/javascript">
+            ga('require', 'ecommerce', 'ecommerce.js');
+            ga('ecommerce:addTransaction', {
+                    'id': '<%= $record->{'id'} %>', // Transaction ID. Required.
+                    'affiliation': '<%= $record->{'campaign'} %>',  // Affiliation or store name.
+                    'revenue': '<%= $record->{'amount_in_cents'} * 100 %>'  // Grand Total.
+            });
+            ga('ecommerce:send');
+        </script>
+       %    }
        % }
+
