@@ -6,7 +6,6 @@
         <%= content_for 'javascript' %>
         % if ( $self->app->mode eq 'production' ) { # only run analytics on production
         <!--Google Analytics-->
-        <script>
         <script type="text/javascript">
           var _gaq = _gaq || [];
           _gaq.push(['_setAccount', 'UA-169022-1']);
