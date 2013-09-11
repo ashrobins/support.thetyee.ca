@@ -19,7 +19,8 @@
           })();
         </script>
         % # Provide e-commerce data on successful transactions
-        %   if ( $self->req->url->to_abs->path eq '/preferences' && $record ) { 
+        %   if ( $self->req->url->to_abs->path eq '/preferences' && defined $self->stash('record') ) { 
+        %   my $record = $self->stash('record');
         <script type="text/javascript">
             ga('require', 'ecommerce', 'ecommerce.js');
             ga('ecommerce:addTransaction', {
