@@ -1,13 +1,3 @@
-<br />
-<%= $progress->{'left_days'} %> days, <%= $progress->{'left_hours'} %> hours and <%= $progress->{'left_mins'} %> minutes remaining.
-<br />
-Raised so far: $<%= $progress->{'raised'} %>
-<br />
-From: <%= $progress->{'people'} %> people
-<br />
-Goal: $<%= $progress->{'goal'} %>
-<br />
-Percentage toward goal: <%= $progress->{'raised'} / $progress->{'goal'} * 100 %>%
-<br />
-Remaining: $<%= $progress->{'goal'} - $progress->{'raised'} %>
-
+<pre>
+%= dumper $progress
+</pre>

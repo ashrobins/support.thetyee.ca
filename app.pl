@@ -252,11 +252,15 @@ helper search_transaction => sub {
 
 get '/progress' => sub {
     my $self       = shift;
+    # Need some error checking for required params
     my $campaign   = $self->param( 'campaign' );
     my $date_start = $self->param( 'date_start' );
     my $date_end   = $self->param( 'date_end' );
     my $goal       = $self->param( 'goal' );
-
+    unless ( $date_start && $date_end && $goal ) {
+        $self->render_not_found; 
+        return;
+    };
     # Dates
     my $dt_start = DateTime::Format::DateParse->parse_datetime( $date_start );
     my $dt_end   = DateTime::Format::DateParse->parse_datetime( $date_end );
@@ -284,7 +288,7 @@ get '/progress' => sub {
         raised     => format_price( $total, 2, '$' ),
         people     => $count,
         percentage => $percentage,
-        remaining  => $remaining,
+        remaining  => format_price( $remaining, 2, '$' ),
     };
     $self->stash( progress => $progress, );
     $self->respond_to(
