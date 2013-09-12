@@ -5,9 +5,13 @@ use Data::Dumper;
 use Mojo::Util qw(b64_encode url_escape url_unescape hmac_sha1_sum);
 use Mojo::URL;
 use Try::Tiny;
+use DateTime;
+use DateTime::Format::DateParse;
+use Number::Format qw(:subs);
 use Support::Schema;
 
 my $config = plugin 'JSONConfig';
+plugin JSONP => callback => 'cb';
 
 plugin 'Util::RandomString' => {
     entropy   => 256,
@@ -39,7 +43,8 @@ helper find_or_new => sub {
     try {
         $result = $dbh->txn_do(
             sub {
-                my $rs = $dbh->resultset( 'Transaction' )->find_or_new( {%$doc} );
+                my $rs = $dbh->resultset( 'Transaction' )
+                    ->find_or_new( {%$doc} );
                 unless ( $rs->in_storage ) {
                     $rs->insert;
                 }
@@ -123,38 +128,40 @@ helper recurly_get_billing_details => sub {
 };
 
 any [qw(GET POST)] => '/' => sub {
-    my $self    = shift;
-    my $onetime = $self->param( 'onetime' );
-    my $amount  = $self->param( 'amount' );
-    my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
+    my $self     = shift;
+    my $onetime  = $self->param( 'onetime' );
+    my $amount   = $self->param( 'amount' );
+    my $campaign = $self->param( 'campaign' ) || $self->flash( 'campaign' );
     if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
-        $self->flash({ 
-                error => 'Amount needs to be a whole number',
-                onetime => 'onetime',
+        $self->flash(
+            {   error    => 'Amount needs to be a whole number',
+                onetime  => 'onetime',
                 campaign => $campaign,
-            });
-        $self->param({ amount => '0' });
+            }
+        );
+        $self->param( { amount => '0' } );
         $amount = '';
-        $self->redirect_to('index');
-    };
+        $self->redirect_to( 'index' );
+    }
     my $amount_in_cents;
     if ( $amount ) {
         $amount_in_cents = $amount * 100;
     }
-    my $options = { # RecurlyJS signature options
+    my $options = {    # RecurlyJS signature options
         'transaction[currency]'        => 'CAD',
         'transaction[amount_in_cents]' => $amount_in_cents,
-        'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
+        'transaction[description]' =>
+            'Support for fact-based independent journalism at The Tyee',
     };
     my $recurly_sig = $self->recurly_get_signature( $options );
-    my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
+    my $plans
+        = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
     $self->stash(
-        {   
-            plans       => $plans,
+        {   plans       => $plans,
             amount      => $amount,
-            onetime     => $onetime || $self->flash('onetime'),
+            onetime     => $onetime || $self->flash( 'onetime' ),
             recurly_sig => $recurly_sig,
-            error       => $self->flash('error'),
+            error       => $self->flash( 'error' ),
         }
     );
     $self->flash( campaign => $campaign );
@@ -163,8 +170,9 @@ any [qw(GET POST)] => '/' => sub {
 
 post '/successful_transaction' => sub {
     my $self          = shift;
-    my $campaign      = $self->flash('campaign');
+    my $campaign      = $self->flash( 'campaign' );
     my $recurly_token = $self->param( 'recurly_token' );
+
     # Request object from Recurly based on token
     my $res
         = $ua->get( $API
@@ -199,9 +207,8 @@ post '/successful_transaction' => sub {
     my $result = $self->find_or_new( $transaction_details );
     $transaction_details->{'id'} = $result->id;
     $self->flash(
-        {   
-            transaction_details => $transaction_details,
-            result        => $result,
+        {   transaction_details => $transaction_details,
+            result              => $result,
         }
     );
     $self->redirect_to( 'preferences' );
@@ -210,17 +217,16 @@ post '/successful_transaction' => sub {
 any [qw(GET POST)] => '/preferences' => sub {
     my $self   = shift;
     my $record = $self->flash( 'transaction_details' );
-    if ( $self->req->method eq 'POST' && $record ) { # Submitted form
+    if ( $self->req->method eq 'POST' && $record ) {    # Submitted form
         my $update = $self->find_or_new( $record );
         $update->update( $self->req->params->to_hash );
-        $self->flash({ transaction_details => $record });
+        $self->flash( { transaction_details => $record } );
         $self->redirect_to( 'share' );
     }
-    else { # First request, or error
+    else {    # First request, or error
         my $errors = $self->flash( 'error' );
         $self->stash(
-            {   
-                record => $record,
+            {   record => $record,
                 errors => $errors,
             }
         );
@@ -230,15 +236,67 @@ any [qw(GET POST)] => '/preferences' => sub {
 } => 'set_preferences';
 
 get '/share' => sub {
-    my $self = shift;
-    my $transaction_details = $self->flash('transaction_details');
+    my $self                = shift;
+    my $transaction_details = $self->flash( 'transaction_details' );
     $self->stash( { transaction_details => $transaction_details } );
     $self->render( 'share' );
 } => 'share';
 
-get '/plans' => sub { # List plans; Not used
+helper search_transaction => sub {
+    my $self   = shift;
+    my $search = shift;
+    my $schema = $self->schema;
+    my $rs     = $schema->resultset( 'Transaction' )->search( $search );
+    return $rs;
+};
+
+get '/progress' => sub {
+    my $self       = shift;
+    my $campaign   = $self->param( 'campaign' );
+    my $date_start = $self->param( 'date_start' );
+    my $date_end   = $self->param( 'date_end' );
+    my $goal       = $self->param( 'goal' );
+
+    # Dates
+    my $dt_start = DateTime::Format::DateParse->parse_datetime( $date_start );
+    my $dt_end   = DateTime::Format::DateParse->parse_datetime( $date_end );
+    $dt_end->set_time_zone( 'America/Los_Angeles' );
+    my $today = DateTime->now( time_zone => 'America/Los_Angeles' );
+    my $duration = $dt_end->subtract_datetime( $today );
+    my ( $days, $hours, $minutes )
+        = $duration->in_units( 'days', 'hours', 'minutes' );
+    my $schema = $self->schema;
+    my $dtf    = $schema->storage->datetime_parser;
+    my $rs     = $self->search_transaction(
+        { trans_date => { '>' => $dtf->format_datetime( $dt_start ) }, } );
+    my $count    = $rs->count;
+    my $total    = $rs->get_column( 'amount_in_cents' )->func( 'SUM' ) / 100;
+    my $percentage = round( $total / $goal * 100, 0 );
+    my $remaining  = $goal - $total;
+    my $progress = {
+        campaign   => $campaign,
+        date_start => $dt_start->datetime(),
+        date_end   => $dt_end->datetime(),
+        left_days  => $days,
+        left_mins  => $minutes,
+        left_hours => $hours,
+        goal       => format_price( $goal, 2, '$' ),
+        raised     => format_price( $total, 2, '$' ),
+        people     => $count,
+        percentage => $percentage,
+        remaining  => $remaining,
+    };
+    $self->stash( progress => $progress, );
+    $self->respond_to(
+        json => sub { $self->render_jsonp( { result => $progress } ); },
+        html => { template => 'progress' },
+        any  => { text     => '', status => 204 }
+    );
+} => 'progress';
+
+get '/plans' => sub {    # List plans; Not used
     my $self = shift;
-    $self->render_not_found; # Doesn't exist for now
+    $self->render_not_found;    # Doesn't exist for now
     my $res
         = $ua->get( $API . 'plans' => { Accept => 'application/xml' } )->res;
     my $xml   = $res->body;

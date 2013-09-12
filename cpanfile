@@ -1,0 +1,13 @@
+requires 'Mojolicious::Lite';
+requires 'Mojo::UserAgent';
+requires 'Data::Dumper';
+requires 'Mojo::Util';
+requires 'Mojo::URL';
+requires 'Try::Tiny';
+requires 'DBIx::Class';
+requires 'DateTime', 1.03;
+requires 'DateTime::Format::DateParse', 0.05;
+requires 'Mojolicious::Plugin::Util::RandomString', 0.02;
+requires 'Number::Format', 1.73;
+requires 'DateTime::Format::Pg', 0.16009;
+requires 'Mojolicious::Plugin::JSONP', 0.02;
