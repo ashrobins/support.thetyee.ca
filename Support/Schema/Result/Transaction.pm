@@ -114,6 +114,11 @@ __PACKAGE__->table("transactions");
   data_type: 'text'
   is_nullable: 1
 
+=head2 pref_newspriority
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -152,6 +157,8 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "campaign",
   { data_type => "text", is_nullable => 1 },
+  "pref_newspriority",
+  { data_type => "integer", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -167,8 +174,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-06 10:58:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uvKEkOqdntG8gyXDwqFnlA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-03 17:37:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XYfSewZSugPNsDr00qVjuQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
