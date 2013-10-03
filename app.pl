@@ -277,18 +277,34 @@ get '/progress' => sub {
     my $total    = $rs->get_column( 'amount_in_cents' )->func( 'SUM' ) / 100;
     my $percentage = round( $total / $goal * 100, 0 );
     my $remaining  = $goal - $total;
+    my @contributors;
+    while( my $contributor = $rs->next ) {
+        next unless ( $contributor->pref_anonymous && $contributor->pref_anonymous eq 'Yes' ); # only non-anon
+        my $contrib = {
+            name => $contributor->first_name . ' ' . $contributor->last_name,
+            city => $contributor->city,
+            state => $contributor->state,
+        };
+        push @contributors, $contrib;
+    };
+    @contributors = reverse @contributors;
     my $progress = {
         campaign   => $campaign,
         date_start => $dt_start->datetime(),
+        date_start_formatted => $dt_start->month_name . ' ' . $dt_start->day . ', ' . $dt_start->year,
         date_end   => $dt_end->datetime(),
+        date_end_formatted => $dt_end->month_name . ' ' . $dt_end->day . ', ' . $dt_end->year,
         left_days  => $days,
         left_mins  => $minutes,
         left_hours => $hours,
-        goal       => format_price( $goal, 2, '$' ),
-        raised     => format_price( $total, 2, '$' ),
+        goal       => $goal,
+        goal_formatted       => format_price( $goal, 2, '$' ),
+        raised     => $total,
+        raised_formatted     => format_price( $total, 2, '$' ),
         people     => $count,
         percentage => $percentage,
         remaining  => format_price( $remaining, 2, '$' ),
+        contributors => \@contributors,
     };
     $self->stash( progress => $progress, );
     $self->respond_to(
