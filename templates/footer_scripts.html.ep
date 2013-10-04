@@ -11,6 +11,19 @@
           _gaq.push(['_setAccount', 'UA-169022-1']);
           _gaq.push(['_setDomainName', 'thetyee.ca']);
           _gaq.push(['_trackPageview']);
+        % # Provide e-commerce data on successful transactions
+        %   if ( $self->req->url->to_abs->path eq '/preferences' && defined $self->stash('record') ) { 
+        %   my $record = $self->stash('record');
+
+         _gaq.push(['_addTrans',
+            '<%= $record->{'id'} %>',           // transaction ID - required
+            '<%= $record->{'campaign'} %>',  // affiliation or store name
+            '<%= $record->{'amount_in_cents'} / 100 %>',          // total - required
+            '<%= $record->{'city'} %>',       // city
+            '<%= $record->{'state'} %>',     // state or province
+            '<%= $record->{'country'} %>'             // country
+         ]);
+       %    }
 
           (function() {
             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -18,18 +31,5 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
           })();
         </script>
-        % # Provide e-commerce data on successful transactions
-        %   if ( $self->req->url->to_abs->path eq '/preferences' && defined $self->stash('record') ) { 
-        %   my $record = $self->stash('record');
-        <script type="text/javascript">
-            ga('require', 'ecommerce', 'ecommerce.js');
-            ga('ecommerce:addTransaction', {
-                    'id': '<%= $record->{'id'} %>', // Transaction ID. Required.
-                    'affiliation': '<%= $record->{'campaign'} %>',  // Affiliation or store name.
-                    'revenue': '<%= $record->{'amount_in_cents'} / 100 %>'  // Grand Total.
-            });
-            ga('ecommerce:send');
-        </script>
-       %    }
        % }
 
