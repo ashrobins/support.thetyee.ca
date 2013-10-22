@@ -1,0 +1,151 @@
+% layout 'default', title => 'Support fact-based independent journalism -- The Tyee';
+
+
+
+       <div class="container" id="content">
+            <div id="campaign-copy" class="row">
+                <h1>Support fact-based independent journalism <span>&nbsp;</span></h1>
+                <p class="lead">Support The Tyee and bring more diverse, independent reporting to the national conversation.</p>
+            </div>
+            %= include 'includes/form'
+            <div id="atf" class="row">
+                <div class="col-md-8 video-container">
+                    <iframe width="560" height="315" src="//www.youtube.com/embed/_ctK3Yu-OCU?rel=0" frameborder="0" allowfullscreen></iframe> 
+                </div>
+                <div class="col-md-4">
+                    %= include 'includes/widget'
+                </div>
+            </div> <!-- / #atf -->
+        </div><!-- / .container -->
+        <div id="featurettes1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h2>Why Now? Why Us?</h2>
+                        Canada is undergoing radical change at a time when our national media is in collapse. In two years there will be another federal election. Canada needs more diverse reporting to inform that democractic moment -- reporting that cares more about your values than their shareholder profits. That's what The Tyee has done for more than 10 years in B.C., garnering numerous reporting awards and a loyal readership. So, join us now and together we'll bring this spirit to the national conversation.
+                    </div><!-- /.col-md-4 -->
+                    <div class="col-md-4">
+                        <h2>What you get...</h2>
+                        <p>Your money pays nationally focused, credible, proven journalists (see sample below) to write the stories other media miss. Your money gives you access to a poll that tells these journalists what issues matter most to you. Energy? Environment? Health Care? Sign up now and tell them. Plus, your money keeps The Tyee paywall free, which means you're giving the gift of excellent independent reporting to all Canadians, regardless of their income levels. Because news is for the people. 
+                        </p>
+                    </div><!-- /.col-md-4 -->
+                    <div class="col-md-4">
+                        <h2>...and paper dolls.</h2>
+                        <img id="harper" src="/ui/img/Stephen-Harper-Paper-Doll-bw.png" />
+                        <p>
+Yes, paper dolls. For those who become builders at the $15 level or higher, we'll send you paper dolls in the form of the leaders of all the federal parties: Stephen Harper, Thomas Mulcair, Justin Trudeau, Elizabeth May, and Daniel Payette. Dress them up. Make them dance. Take videos of them giving the speeches you <em>wish</em> they'd give. Just a fun little thank you from the political nerds at The Tyee to the political nerds who support independent media.
+                        </p>
+                    </div><!-- /.col-md-4 -->
+                </div><!-- /.row -->
+            </div><!-- / .container -->
+        </div><!-- / #featurettes1 -->
+        %= include 'includes/people'
+
+        <div id="featurettes2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h2>Who are we?</h2>
+                        We're an independent, online news magazine from BC. We're devoted to fact-driven reporting and analysis that informs and enlivens our democratic conversation. Our reporting has garnered the respect of our peers and readers and <a href="http://thetyee.ca/About/Intro/">countless awards</a>. While some journalism gives the last word to power, we prefer to give the last word to ordinary people. 
+                    </div><!-- /.col-md-4 -->
+                    <div class="col-md-4">
+                        <h2 id="newspriorities">What are  <em>your</em> news priorities?</h2>
+                        <p>What issues do <em>you</em> think need more and better reporting? Energy & Environment? Government Accountability? Inequality? Militarization? We want to know. When you register, you get a chance to tell us which news priority is most important to you.
+                        </p>
+                    </div><!-- /.col-md-4 -->
+                    <div class="col-md-4">
+                        <h2>Who's with us?</h2>
+                        <p>
+                        A number of civil-society groups are supporting our bid to bring more independent reporting to the national conversation. The list includes the CCPA, the Council of Canadians and many more. <a data-toggle="modal" href="#partner-orgs">See the full list here</a>.
+                        </p>
+                    </div><!-- /.col-md-4 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </div><!-- / #featurettes2 -->
+        %= include 'includes/builder_list'
+        %= include 'includes/partners'
+
+% content_for javascript => begin
+%= javascript begin
+            $('[rel="popover"]').popover();
+
+            var onetime = '<%= $onetime %>';
+            var amount = '<%= $amount %>';
+
+            Recurly.config({
+                subdomain: '<%= $config->{'subdomain'} %>',
+                currency: 'CAD'
+            });
+
+            if ( onetime ) {
+                $('#onetime a:last').tab('show');
+            };
+            if ( amount ) {
+                showTransactionForm();
+                $('form#form-onetime').hide();
+            };
+
+            function showSubscriptionForm ( planCode ) { 
+                Recurly.buildSubscriptionForm({
+                    target: '#recurly-subscribe',
+                    // Signature must be generated server-side with a utility method provided
+                    // in client libraries.
+                    signature: '<%== $recurly_sig %>',
+                    successURL: '/successful_transaction',
+                    planCode: planCode,
+                    distinguishContactFromBillingInfo: false,
+                    collectCompany: false,
+                    collectContact: true,
+                    // termsOfServiceURL: 'http://example.com/tos',
+                    acceptPaypal: false,
+                    enableCoupons: false,
+                    acceptedCards: ['mastercard',
+                    'visa'],
+                    billingInfo: {
+                        state: 'BC',
+                        country: 'CA'
+                    }
+                });
+                $('#recurly-subscribe').fadeIn(1000);
+                $('#transaction-secure').fadeIn(1000);
+            };
+
+            function showTransactionForm () { 
+                Recurly.buildTransactionForm({
+                    target: '#transactionForm',
+                    signature: '<%== $recurly_sig %>',
+                    successURL: '/successful_transaction',
+                    collectCompany: false,
+                    collectContactInfo: true,
+                    // distinguishContactFromBillingInfo: false,
+                    // termsOfServiceURL: 'http://example.com/tos',
+                    acceptPaypal: false,
+                    acceptedCards: ['mastercard',
+                    'visa'],
+                    billingInfo: {
+                        state: 'BC',
+                        country: 'CA'
+                    }
+                });
+                $('#transactionForm').fadeIn(1000);
+                $('#transaction-secure').fadeIn(1000);
+            };
+
+            $( "label.btn" ).on( "click", function( event ) {
+                var amount = $(this).text();
+                $('input#amount-monthly').attr('placeholder', amount);
+                var selectedInput = $(this).context.control;
+                showSubscriptionForm( selectedInput.value );
+            });
+            $( "a#amount-change" ).on( "click", function( event ) {
+                event.preventDefault();
+                $('form#form-onetime').show();
+                $('#transactionForm').hide();
+                $('#payment-onetime-confirmation').hide();
+            });
+            $('a#link-tab-monthly').on('click', function( event ) {
+                event.preventDefault();
+                $('#monthly a:last').tab('show');
+            });
+%   end
+% end

@@ -122,44 +122,57 @@ helper recurly_get_billing_details => sub {
     return $dom;
 };
 
-any [qw(GET POST)] => '/' => sub {
-    my $self    = shift;
-    my $onetime = $self->param( 'onetime' );
-    my $amount  = $self->param( 'amount' );
-    my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
-    if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
-        $self->flash({ 
-                error => 'Amount needs to be a whole number',
-                onetime => 'onetime',
-                campaign => $campaign,
-            });
-        $self->param({ amount => '0' });
-        $amount = '';
-        $self->redirect_to('index');
-    };
-    my $amount_in_cents;
-    if ( $amount ) {
-        $amount_in_cents = $amount * 100;
-    }
-    my $options = { # RecurlyJS signature options
-        'transaction[currency]'        => 'CAD',
-        'transaction[amount_in_cents]' => $amount_in_cents,
-        'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
-    };
-    my $recurly_sig = $self->recurly_get_signature( $options );
-    my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
-    $self->stash(
-        {   
-            plans       => $plans,
-            amount      => $amount,
-            onetime     => $onetime || $self->flash('onetime'),
-            recurly_sig => $recurly_sig,
-            error       => $self->flash('error'),
+group {
+    under [qw(GET POST)] => '/' => sub {
+        my $self    = shift;
+        my $onetime = $self->param( 'onetime' );
+        my $amount  = $self->param( 'amount' );
+        my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
+        if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
+            $self->flash({ 
+                    error => 'Amount needs to be a whole number',
+                    onetime => 'onetime',
+                    campaign => $campaign,
+                });
+            $self->param({ amount => '0' });
+            $amount = '';
+            $self->redirect_to('index');
+        };
+        my $amount_in_cents;
+        if ( $amount ) {
+            $amount_in_cents = $amount * 100;
         }
-    );
-    $self->flash( campaign => $campaign );
-    $self->render( 'index' );
-} => 'index';
+        my $options = { # RecurlyJS signature options
+            'transaction[currency]'        => 'CAD',
+            'transaction[amount_in_cents]' => $amount_in_cents,
+            'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
+        };
+        my $recurly_sig = $self->recurly_get_signature( $options );
+        my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
+        $self->stash(
+            {   
+                plans       => $plans,
+                amount      => $amount,
+                onetime     => $onetime || $self->flash('onetime'),
+                recurly_sig => $recurly_sig,
+                error       => $self->flash('error'),
+            }
+        );
+        $self->flash( campaign => $campaign );
+    };
+
+    any [qw(GET POST)] => '/builders' => sub {
+        my $self    = shift;
+        $self->stash( body_id => 'builders' );
+    } => 'builders';
+
+    any [qw(GET POST)] => '/national' => sub {
+        my $self    = shift;
+        $self->stash( body_id => 'national' );
+    } => 'national';
+};
+
+
 
 post '/successful_transaction' => sub {
     my $self          = shift;

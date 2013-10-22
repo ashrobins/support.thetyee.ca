@@ -1,6 +1,12 @@
-% layout 'default', title => 'Support fact-based independent journalism -- The Tyee', body_id => 'index';
+% layout 'default', title => 'Support fact-based independent journalism -- The Tyee', body_id => 'builders';
 
-%= include 'tabs'
+       <div class="container" id="content">
+            <div id="campaign-copy" class="row">
+                <h1>Support fact-based independent journalism <span>&nbsp;</span></h1>
+                <p class="lead">Support The Tyee and bring more diverse, independent reporting to the national conversation.</p>
+            </div>
+            %= include 'includes/form'
+       </div>
 
 % content_for javascript => begin
 %= javascript begin
