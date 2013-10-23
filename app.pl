@@ -136,7 +136,7 @@ group {
                 });
             $self->param({ amount => '0' });
             $amount = '';
-            $self->redirect_to('index');
+            $self->redirect_to('national');
         };
         my $amount_in_cents;
         if ( $amount ) {
