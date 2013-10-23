@@ -4,38 +4,36 @@
                     <h2>Some writers your money will support...</h2>
                     <div class="row">
                         <div class="col-md-4">
-                            <img class="img-thumbnail" src="/ui/img/maudebarlow.jpg">
-                            <h3 class="famous">Maude Barlow</h3>
-                            <blockquote>I support The Tyee because it tells the stories we need to read and that mainstream media has given up on. What else hooks me? My four gorgeous grandkids.</blockquote>
-                        </div><!-- /.col-md-4 -->
-                        <div class="col-md-4">
                             <img class="img-thumbnail" src="/ui/img/steviecameron.jpg">
                             <h3 class="famous">Stevie Cameron</h3>
-                            <blockquote>What hooks me? A great story. Especially a great story with criminals. I am far less interested in nice people, good people, than I am in bad.</blockquote>
+                            <blockquote>Award-winning investigative journalist and bestselling author. Best known for her exposure of the Mulroney government's Airbus Affair and her extensive coverage of the Pickton murders and trials.</blockquote>
                         </div><!-- /.col-md-4 -->
-                        <div class="col-md-4">
-                            <img class="img-thumbnail" src="/ui/img/naomiklein.jpg">
-                            <h3 class="famous">Naomi Klein</h3>
-                            <blockquote>At a time when Canada is radically changing, our national media is in collapse. Support to The Tyee to bring more fact-driven reporting to the national conversation. It matters.
-                            </blockquote>
-                        </div><!-- /.col-md-4 -->
-                        <br clear="all" />
                         <div class="col-md-4">
                             <img class="img-thumbnail" src="/ui/img/lawrencemartin.jpg">
                             <h3 class="famous">Lawrence Martin</h3>
-                            <blockquote>I support The Tyee because it's an intelligent publication. What else hooks me about it? That it's one of the few media products in western Canada that's to the left of Dick Cheney.</blockquote>
-
+                            <blockquote>Columnist for, and former bureau chief in Washington & Moscow of, the Globe and Mail. Author of 10 books, including <em>Harperland: The Politics of Control</em> and <em>Iron Man: The Defiant Reign of Jean Chrétien</em>.</blockquote>
                         </div><!-- /.col-md-4 -->
                         <div class="col-md-4">
+                            <img class="img-thumbnail" src="/ui/img/lawrencemartin.jpg">
+                            <h3 class="famous">Heather Mallick</h3>
+                            <blockquote>Take-no-prisoners columnist for the Toronto Star. Also contributes to the CBC and the Guardian. Winner of two National Newspaper Awards for features and critical writing.</blockquote>
+                        </div><!-- /.col-md-4 -->
+                        <br clear="all" />
+                        <div class="col-md-4">
                             <img class="img-thumbnail" src="/ui/img/lindamcquaig.jpg">
-                            <h3 class="famous">Linda McQuaig</h3>
-                            <blockquote>We desperately need some counterpoint to the business media. That's why I support The Tyee.</blockquote>
+                            <h3 class="famous">Andrew Nikiforuk</h3>
+                            <blockquote>Winner of seven National Magazine Awards. Top honours from the Association of Canadian Journalists. Author of four books, including the bestselling <em>The Tar Sands: Dirty Oil and the Future of the Continent</em>.</blockquote>
 
                         </div><!-- /.col-md-4 -->
                         <div class="col-md-4">
                             <img class="img-thumbnail" src="/ui/img/michaelnicol.jpg">
-                            <h3 class="famous">Michael Nicoll Yahgulanaas</h3>
-                            <blockquote>I don't like my news farmed out, I take it wild.</blockquote>
+                            <h3 class="famous">Jonathan Sas</h3>
+                            <blockquote>Director of research at the Broadbent Institute. Former reporter and editor at The Mark. Outspoken critic of media concentration and commercialization in Canada. Sauvé Scholar (2012).</blockquote>
+                        </div><!-- /.col-md-4 -->
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="/ui/img/michaelnicol.jpg">
+                            <h3 class="famous">Judith Sayers</h3>
+                            <blockquote>Former elected chief of the Hupacsath First Nation. Assistant professor of law and business at UVic. National Aboriginal Economic Development Chair. Thoughtful writer, insightful thinker.</blockquote>
                         </div><!-- /.col-md-4 -->
                     </div><!-- /.row -->
                 </div><!-- /.container -->
