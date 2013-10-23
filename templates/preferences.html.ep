@@ -1,11 +1,8 @@
 % layout 'default', title => 'Set your preferences -- The Tyee';
 
-%= include 'header'
 %  my $err_anon = validation->error('pref_anonymous');
 %  my $err_freq = validation->error('pref_frequency');
 
-<div id="content-inner">
-    <p>Sign up for The Tyee's free eNewsletter to receive the articles you help fund directly in your inbox:</p>
 <div class="container" id="content-inner">
     <h1>Step 2 of 2: Almost there, <%= $record->{'first_name'} %>! Set your preferences...</h1>
     <p class="lead">Sign up for The Tyee's free eNewsletter to receive the articles you help fund directly in your inbox:</p>
@@ -23,11 +20,11 @@
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-primary active" for="daily">
                     <input checked="1" id="daily" name="pref_frequency" type="radio" value="Daily headlines" />
-                    Daily headlines
+                    Daily
                 </label>                
                 <label class="btn btn-primary" for="daily">
                     <input id="weekly" name="pref_frequency" type="radio" value="Weekly headlines" />
-                    Weekly headlines
+                    Weekly
                 </label>                
                 <label class="btn btn-primary" for="daily">
                     <input id="noThanks" name="pref_frequency" type="radio" value="No thanks" />
