@@ -1,7 +1,5 @@
 % layout 'default', title => 'Support fact-based independent journalism -- The Tyee';
 
-
-
        <div class="container" id="content">
             <div id="campaign-copy" class="row">
                 <h1>Support fact-based independent journalism <span>&nbsp;</span></h1>
