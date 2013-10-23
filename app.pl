@@ -209,8 +209,16 @@ post '/successful_transaction' => sub {
 
 any [qw(GET POST)] => '/preferences' => sub {
     my $self   = shift;
+
     my $record = $self->flash( 'transaction_details' );
     if ( $self->req->method eq 'POST' && $record ) { # Submitted form
+        # Validate parameters with custom check
+        my $validation = $self->validation;
+        $validation->required('pref_frequency');
+        $validation->required('pref_anonymous');
+        # Render form again if validation failed
+        return $self->render('preferences') if $validation->has_error;
+
         my $update = $self->find_or_new( $record );
         $update->update( $self->req->params->to_hash );
         $self->flash({ transaction_details => $record });
@@ -221,7 +229,6 @@ any [qw(GET POST)] => '/preferences' => sub {
         $self->stash(
             {   
                 record => $record,
-                errors => $errors,
             }
         );
         $self->flash( { transaction_details => $record } );
