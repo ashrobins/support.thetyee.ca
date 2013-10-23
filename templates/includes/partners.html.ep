@@ -1,0 +1,32 @@
+            <!-- Modal -->
+            <div class="modal fade" id="partner-orgs" tabindex="-1" role="dialog" aria-labelledby="partner-orgs-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Friends of Independent Journalism</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="lead">We're thankful to the many organizations that help share The Tyee's fact-based, independent journalism far and wide. Click their logos to see what they've been up to lately!</p>
+                            <ul>
+                                <li><a href="http://bcfed.ca/" title="BC Fed"><img src="/ui/img/BCFed_small.png" alt="BC Fed" /></a></li>
+                                <li><a href="http://www.policyalternatives.ca/" title="Candian Centre for Policy Alternatives"><img src="/ui/img/CCPA_small.png" alt="CCPA" /></a></li>
+                                <li><a href="http://www.columbiainstitute.ca/" title="Columbia Institute"><img src="/ui/img/Columbia-Institute_small.png" alt="Columbia Institute"/></a></li>
+                                <li><a href="http://www.canadians.org/" title="Council of Canadians"><img src="/ui/img/Council-of-Canadians_small.png" alt="Council of Canadians" /></a></li>
+                                <li><a href="http://www.ecojustice.ca/" title="Ecojustice"><img src="/ui/img/Ecojustice_small.png" alt="Ecojustice" /></a></li>
+                                <li><a href="http://www.fairvote.ca/" title="Fairvote Canada"><img src="/ui/img/Fair-Vote_small.png" alt="Fairvote Canada" /></a></li>
+                                <li><a href="http://forestethicsadvocacy.ca/" title="ForestEthics Advocacy"><img src="/ui/img/Forest-Ethics-Advocacy_small.png" alt="ForestEthics Advocacy" /></a></li>
+                                <li><a href="http://www.friends.ca/" title="Friends of Canadian Broadcasting"><img src="/ui/img/Friends-of-Canadian-Broadcasting_small.png" alt="Friends of Canadian Broadcasting" /></a></li>
+                                <li><a href="http://www.ppforum.ca/" title="Public Policy Forum"><img src="/ui/img/Public-Policy-Forum.png" alt="Public Policy Forum" /></li>
+                                <li><a href="http://www.rideauinstitute.ca/" title="Rideau Institute"><img src="/ui/img/Rideau-Institute_small.png" alt="Rideau Institute" /></a></li>
+                            </ul>
+                            <p>
+                            <small>These organizations have partnered to help spread the word about The Tyee's fact-based, independent journalism. Partners neither endorse nor influence The Tyee's journalism or editorial strategy. Likewise, The Tyee does not necessarily endorse the particular positions or campaigns of the above organizations. </small>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->

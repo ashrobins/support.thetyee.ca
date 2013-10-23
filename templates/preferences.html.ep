@@ -1,5 +1,4 @@
-% layout 'default';
-% title 'Set your preferences -- The Tyee';
+% layout 'default', title => 'Set your preferences -- The Tyee';
 
 %= include 'header'
 %  my $err_anon = validation->error('pref_anonymous');
@@ -7,6 +6,9 @@
 
 <div id="content-inner">
     <p>Sign up for The Tyee's free eNewsletter to receive the articles you help fund directly in your inbox:</p>
+<div class="container" id="content-inner">
+    <h1>Step 2 of 2: Almost there, <%= $record->{'first_name'} %>! Set your preferences...</h1>
+    <p class="lead">Sign up for The Tyee's free eNewsletter to receive the articles you help fund directly in your inbox:</p>
     <form action="preferences" method="POST" role="form">
 
         % if ( $err_anon || $err_freq ) {
