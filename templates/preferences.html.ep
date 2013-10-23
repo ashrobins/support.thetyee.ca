@@ -48,9 +48,77 @@
                     No thanks
                 </label>
             </div>        
+        </div>
+        <br clear="all" />
+        <div class="form-group" id="newspriorities">
+            <label for="pref_frequency">Vote for your news priority:</label>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="artsandculture" value="1">
+                Arts &amp; Culture 
+              </label>
+              <span class="help-block">(CRTC, media concentration, bilingualism, Canadian identity, CBC funding cuts, arts funding cuts, grants cuts, cuts, cuts, cuts.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="energyandenvironment" value="2">
+                Energy &amp; Environment 
+              </label>
+              <span class="help-block">(Oil sands, fracking, pipelines, tankers, GMOs, honey bee extinction, climate change, peak oil, resource depletion, science muzzling. You know, the end of the world.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="tradeandforeignpolity" value="3">
+                Trade &amp; Foreign Policy  
+              </label>
+              <span class="help-block">(UN, Canada's international reputation, defence, international law, CIDA/foreign aid, peacekeeping, World Bank, globalization, sweat shops, mining, G8, FIPPA, CETA, NAFTA, IMF, UN, and other acronyms.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="labourindustryeconomy" value="4">
+                Labour, Industry &amp; Economy  
+              </label>
+              <span class="help-block">(Union bargaining rights, collective agreements, outsourcing, temporary foreign workers, living wage, worker safety, privatization, jobs, progressive taxation and economics, corporate taxes, small business, wheat board, you know, the 99% and the 1%.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="governmentaccountability" value="5">
+                Government Accountability  
+              </label>
+              <span class="help-block">(Transparency, federal-provincial relations, Senate reform, proportional representation, proroguing, omnibus bills, fighter jets, FOI, robocalls, voter fraud, attack ads, etc.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="inequality" value="6">
+                Inequality, Class &amp; Social Security  
+              </label>
+              <span class="help-block">(Welfare reform, economic inequality, public pensions, social security, universal childcare, universal education, universal health care, social housing, etc.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="rightsandjustice" value="7">
+                Rights &amp; Justice
+              </label>
+              <span class="help-block">(LGBTQ, #IdleNoMore, sexism, racism, immigrant and refugee rights, mental healthcare, disability rights, Treaty rights, Charter rights, protest rights, reproductive rights, right?) </span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="openmedia" value="8">
+                Open Media 
+              </label>
+              <span class="help-block">(Online spying, Internet throttling, cell phone monopolies, Internet freedom, open source, pirating, copyright, etc.)</span>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="pref_newspriority" id="tyeechoice" value="0" checked>
+                Tyee's choice
+              </label>
+              <span class="help-block">(I trust your news judgment, Tyee.)</span>
+            </div>
+        </div>
+
             <div class="submit-button">
                 <input class="btn btn-success btn-lg" id="submit" type="submit" value="Finish »" />
             </div>
-        </div>
     </form>
 </div>
