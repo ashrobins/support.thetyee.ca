@@ -122,44 +122,57 @@ helper recurly_get_billing_details => sub {
     return $dom;
 };
 
-any [qw(GET POST)] => '/' => sub {
-    my $self    = shift;
-    my $onetime = $self->param( 'onetime' );
-    my $amount  = $self->param( 'amount' );
-    my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
-    if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
-        $self->flash({ 
-                error => 'Amount needs to be a whole number',
-                onetime => 'onetime',
-                campaign => $campaign,
-            });
-        $self->param({ amount => '0' });
-        $amount = '';
-        $self->redirect_to('index');
-    };
-    my $amount_in_cents;
-    if ( $amount ) {
-        $amount_in_cents = $amount * 100;
-    }
-    my $options = { # RecurlyJS signature options
-        'transaction[currency]'        => 'CAD',
-        'transaction[amount_in_cents]' => $amount_in_cents,
-        'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
-    };
-    my $recurly_sig = $self->recurly_get_signature( $options );
-    my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
-    $self->stash(
-        {   
-            plans       => $plans,
-            amount      => $amount,
-            onetime     => $onetime || $self->flash('onetime'),
-            recurly_sig => $recurly_sig,
-            error       => $self->flash('error'),
+group {
+    under [qw(GET POST)] => '/' => sub {
+        my $self    = shift;
+        my $onetime = $self->param( 'onetime' );
+        my $amount  = $self->param( 'amount' );
+        my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
+        if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
+            $self->flash({ 
+                    error => 'Amount needs to be a whole number',
+                    onetime => 'onetime',
+                    campaign => $campaign,
+                });
+            $self->param({ amount => '0' });
+            $amount = '';
+            $self->redirect_to('index');
+        };
+        my $amount_in_cents;
+        if ( $amount ) {
+            $amount_in_cents = $amount * 100;
         }
-    );
-    $self->flash( campaign => $campaign );
-    $self->render( 'index' );
-} => 'index';
+        my $options = { # RecurlyJS signature options
+            'transaction[currency]'        => 'CAD',
+            'transaction[amount_in_cents]' => $amount_in_cents,
+            'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
+        };
+        my $recurly_sig = $self->recurly_get_signature( $options );
+        my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
+        $self->stash(
+            {   
+                plans       => $plans,
+                amount      => $amount,
+                onetime     => $onetime || $self->flash('onetime'),
+                recurly_sig => $recurly_sig,
+                error       => $self->flash('error'),
+            }
+        );
+        $self->flash( campaign => $campaign );
+    };
+
+    any [qw(GET POST)] => '/builders' => sub {
+        my $self    = shift;
+        $self->stash( body_id => 'builders' );
+    } => 'builders';
+
+    any [qw(GET POST)] => '/national' => sub {
+        my $self    = shift;
+        $self->stash( body_id => 'national' );
+    } => 'national';
+};
+
+
 
 post '/successful_transaction' => sub {
     my $self          = shift;
@@ -209,8 +222,16 @@ post '/successful_transaction' => sub {
 
 any [qw(GET POST)] => '/preferences' => sub {
     my $self   = shift;
+
     my $record = $self->flash( 'transaction_details' );
     if ( $self->req->method eq 'POST' && $record ) { # Submitted form
+        # Validate parameters with custom check
+        my $validation = $self->validation;
+        $validation->required('pref_frequency');
+        $validation->required('pref_anonymous');
+        # Render form again if validation failed
+        return $self->render('preferences') if $validation->has_error;
+
         my $update = $self->find_or_new( $record );
         $update->update( $self->req->params->to_hash );
         $self->flash({ transaction_details => $record });
@@ -221,7 +242,6 @@ any [qw(GET POST)] => '/preferences' => sub {
         $self->stash(
             {   
                 record => $record,
-                errors => $errors,
             }
         );
         $self->flash( { transaction_details => $record } );

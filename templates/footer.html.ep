@@ -1,11 +1,14 @@
-        <div id="footer">
-            <p>
-All Tyee Builder transactions are processed in Canadian Dollars. The Tyee/Countercurrent Media is a Canadian organization, located in Vancouver, B.C. If you have any questions, please refer to our <a target="_blank" href="http://thetyee.ca/About/Builders/FAQ/">Builder Handbook</a>. There, you'll find details about how the program works as well as information about refunds, subscriber privacy and cancellations.
-            </p>
-            <p>
-            Although we operate on a shoestring budget, we're technically a for-profit organization; as such, contributions to The Tyee are not tax-deductible. In lieu of a tax receipt, we offer you our pledge that donations will go directly to the writing and editing of more of the Tyee journalism you know and love.
-            </p>
-            <p>
-            Contact Us: For questions or to make changes to your account at any time, contact us by <a target="_blank" href="http://www.google.com/recaptcha/mailhide/d?k=01Lpo-7rwiM1MAnRgeZ5aaqA==&c=yGPyHyFeLT7FyKm1p8ePC5O5yYHihWV1fDsc7V5i1ME=">email</a>, or call us at 604-689-7489.
-            </p>
+        <footer>
+        <div class="container">
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <div id="tos">
+                <h4>Terms of service</h4>
+                <p>All Tyee Builder transactions are processed in Canadian Dollars. The Tyee/Countercurrent Media is a Canadian organization, located in Vancouver, B.C.</p>
+
+                <p>You can change the amount you're giving us monthly or stop subscribing at any time. Simply contact us and we'll put an end to your membership, which will take effect the next time a payment is due to be made. Due to the nature of the program we can't offer refunds mid-month. If you have any questions or need to cancel your membership, please contact us by <a href="http://www.google.com/recaptcha/mailhide/d?k=01E38WvXKx52t0zimSmkYESg==&…=" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k\07501E38WvXKx52t0zimSmkYESg\75…', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;" title="Reveal this e-mail address">email</a> or phone (604-689-7489).</p>
+                 <p>Although we operate on a shoestring budget, we're technically a for-profit organization; as such, contributions to The Tyee are not tax-deductible. Find out more about our funding <a href="http://thetyee.ca/About/Us/" target="_blank">here</a>.
+                </p>
+                <p>&copy; 2013 The Tyee &middot; <a href="#">Privacy</a> &middot; <a href="http://TheTyee.ca/About/National/Credits">Credits</a></p>
+            </div>
         </div>
+        </footer>

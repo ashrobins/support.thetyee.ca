@@ -1,7 +1,9 @@
--- Revert transactions
+-- Deploy transactions
+-- requires: schema
 
 BEGIN;
 
-    DROP TABLE support.transactions;
+
+    ALTER TABLE support.transactions DROP COLUMN pref_newspriority;
 
 COMMIT;
