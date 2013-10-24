@@ -3,7 +3,9 @@
 
 BEGIN;
 
-
-    ALTER TABLE support.transactions DROP COLUMN pref_newspriority;
+    SET client_min_messages = 'warning';
+    
+    ALTER TABLE support.transactions DROP COLUMN wc_status;
+    ALTER TABLE support.transactions DROP COLUMN wc_response;
 
 COMMIT;

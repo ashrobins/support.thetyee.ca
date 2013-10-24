@@ -6,3 +6,5 @@ schema 2013-09-05T22:22:10Z Phillip Smith <ps@phillipadsmith.com> # Add schema f
 transactions [schema] 2013-09-05T22:22:46Z Phillip Smith <ps@phillipadsmith.com> # Add table transactions for support.thetyee.ca
 @v0.2.6 2013-10-03T22:17:37Z Phillip Smith <ps@phillipadsmith.com> # tagging v0.2.6
 transactions [transactions@v0.2.6 schema] 2013-10-03T22:22:24Z Phillip Smith <ps@phillipadsmith.com># Add column for news priority vote
+@v0.3.0 2013-10-24T00:42:13Z Phillip Smith <ps@phillipadsmith.com> # Tag v0.3.0
+transactions [transactions@v0.3.0 schema] 2013-10-24T00:44:48Z Phillip Smith <ps@phillipadsmith.com># Add columns for WhatCounts API add results
