@@ -16,6 +16,9 @@
     <script type="text/javascript" src="//use.typekit.net/sjz2xsw.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     <link rel="shortcut icon" href="<%= $config->{'static_asset_path'} %>/ui/img/favicon.ico">
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "40ef0d0c-5826-4d11-a6ac-266317187462", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
 </head>
     <body id="">
     <!--[if lt IE 7]>

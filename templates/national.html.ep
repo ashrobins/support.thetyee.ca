@@ -8,7 +8,7 @@
             %= include 'includes/form'
             <div id="atf" class="row">
                 <div class="col-md-8 video-container">
-                    <iframe src="//player.vimeo.com/video/77548585" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/77548585">Support The Tyee: Help beef up our national reporting</a> from <a href="http://vimeo.com/user8634259">The Tyee</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+                    <iframe src="//player.vimeo.com/video/77548585" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
                 <div class="col-md-4">
                     %= include 'includes/widget'
@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <h2>Our vision</h2>
-                        Canada is undergoing radical change at a time when our national media is in collapse. In two years there will be another federal election. Canada needs more diverse reporting to inform that democractic moment -- reporting that cares more about your values than shareholder profits. That's what The Tyee has done for more than 10 years in B.C., garnering numerous reporting awards and a loyal readership. So, <a href="http://TheTyee.ca/national/">join us now</a> and together we'll bring this spirit to the national conversation. 
+                        Canada is undergoing radical change at a time when our national media is in collapse. In two years there will be another federal election. Canada needs more diverse reporting to inform that democractic moment -- reporting that cares more about your values than shareholder profits. That's what The Tyee has done for more than 10 years in B.C., garnering numerous reporting awards and a loyal readership. So, join us now and together we'll bring this spirit to the national conversation. 
                     </div><!-- /.col-md-4 -->
                     <div class="col-md-4">
                         <h2>How you can help</h2>
