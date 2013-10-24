@@ -9,6 +9,7 @@
                  <p>Although we operate on a shoestring budget, we're technically a for-profit organization; as such, contributions to The Tyee are not tax-deductible. Find out more about our funding <a href="http://thetyee.ca/About/Us/" target="_blank">here</a>.
                 </p>
                 <p>&copy; 2013 The Tyee &middot; <a href="#">Privacy</a> &middot; <a href="http://TheTyee.ca/About/National/Credits">Credits</a></p>
+                <p>support.thetyee.ca v<%= $config->{'app_version'} %></p>
             </div>
         </div>
         </footer>
