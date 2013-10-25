@@ -161,6 +161,10 @@ group {
         $self->flash( campaign => $campaign );
     };
 
+    any [qw(GET POST)] => '/' => sub {
+        my $self = shift;
+    } => 'national';
+
     any [qw(GET POST)] => '/builders' => sub {
         my $self    = shift;
         $self->stash( body_id => 'builders' );
