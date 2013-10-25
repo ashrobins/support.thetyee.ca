@@ -29,7 +29,7 @@
                     </div><!-- /.col-md-4 -->
                     <div class="col-md-4">
                         <h2>Pull the strings</h2>
-                        <img id="harper" src="/ui/img/Stephen-Harper-Paper-Doll-bw.png" />
+                        <img id="harper" src="<%= $config->{'static_asset_path'} %>/ui/img/Stephen-Harper-Paper-Doll-bw.png" />
                         <p>For years, politicians have been playing with you. Now it's your turn to play with them. In anticipation of the 2015 federal election, we present The Party Leader Paper Dolls. Just a little gift from the political nerds at The Tyee to the political nerds who subscribe at $15/month or higher levels. Prorogue away, parliamentary puppet master! <a href="http://TheTyee.ca/About/National/Paper-Dolls">See the dolls...</a>
 
                         </p>
