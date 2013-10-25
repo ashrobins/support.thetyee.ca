@@ -208,6 +208,7 @@ post '/successful_transaction' => sub {
         ? $dom->at( 'plan plan_code' )->text
         : '',
         campaign => $campaign,
+        user_agent => $self->req->headers->user_agent,
     };
     my $result = $self->find_or_new( $transaction_details );
     $transaction_details->{'id'} = $result->id;
