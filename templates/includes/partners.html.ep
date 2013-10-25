@@ -19,7 +19,7 @@
                                 <li><a href="http://www.fairvote.ca/" title="Fairvote Canada"><img src="<%= $config->{'static_asset_path'} %>/ui/img/Fair-Vote_small.png" alt="Fairvote Canada" /></a></li>
                                 <li><a href="http://forestethicsadvocacy.ca/" title="ForestEthics Advocacy"><img src="<%= $config->{'static_asset_path'} %>/ui/img/Forest-Ethics-Advocacy_small.png" alt="ForestEthics Advocacy" /></a></li>
                                 <li><a href="http://www.friends.ca/" title="Friends of Canadian Broadcasting"><img src="<%= $config->{'static_asset_path'} %>/ui/img/Friends-of-Canadian-Broadcasting_small.png" alt="Friends of Canadian Broadcasting" /></a></li>
-                                <li><a href="http://www.ppforum.ca/" title="Public Policy Forum"><img src="<%= $config->{'static_asset_path'} %>/ui/img/Public-Policy-Forum.png" alt="Public Policy Forum" /></li>
+                                <li><a href="http://www.ppforum.ca/" title="Public Policy Forum"><img src="<%= $config->{'static_asset_path'} %>/ui/img/Public-Policy-Forum.png" alt="Public Policy Forum" /></a></li>
                                 <li><a href="http://www.rideauinstitute.ca/" title="Rideau Institute"><img src="<%= $config->{'static_asset_path'} %>/ui/img/Rideau-Institute_small.png" alt="Rideau Institute" /></a></li>
                             </ul>
                             <p>
