@@ -214,12 +214,14 @@ post '/successful_transaction' => sub {
         campaign => $campaign,
         user_agent => $self->req->headers->user_agent,
     };
+    $self->app->log->debug( Dumper( $transaction_details ) ); 
     my $result = $self->find_or_new( $transaction_details );
+    $self->app->log->debug( Dumper( $result ) ); 
     $transaction_details->{'id'} = $result->id;
     $self->flash(
         {   
             transaction_details => $transaction_details,
-            result        => $result,
+            #result        => $result,
         }
     );
     $self->redirect_to( 'preferences' );
@@ -227,8 +229,11 @@ post '/successful_transaction' => sub {
 
 any [qw(GET POST)] => '/preferences' => sub {
     my $self   = shift;
-
     my $record = $self->flash( 'transaction_details' );
+    $self->app->log->debug( Dumper( $record ) ); 
+    $self->stash({ record => $record, });
+    $self->flash({ transaction_details => $record });
+
     if ( $self->req->method eq 'POST' && $record ) { # Submitted form
         # Validate parameters with custom check
         my $validation = $self->validation;
@@ -242,17 +247,7 @@ any [qw(GET POST)] => '/preferences' => sub {
         $self->flash({ transaction_details => $record });
         $self->redirect_to( 'share' );
     }
-    else { # First request, or error
-        my $errors = $self->flash( 'error' );
-        $self->stash(
-            {   
-                record => $record,
-            }
-        );
-        $self->flash( { transaction_details => $record } );
-        $self->render( 'preferences' );
-    }
-} => 'set_preferences';
+} => 'preferences';
 
 get '/share' => sub {
     my $self = shift;

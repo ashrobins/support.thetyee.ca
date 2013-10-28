@@ -4,7 +4,7 @@
 %  my $err_freq = validation->error('pref_frequency');
 
 <div class="container" id="content-inner">
-    <h1>Almost there, <%= $record->{'first_name'} %>! Time to vote...</h1>
+    <h1>Almost there! Time to vote...</h1>
     <p class="lead">Inform our reporting. Tell us what matters most to you...</p>
     <form action="preferences" method="POST" role="form">
 
