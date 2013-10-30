@@ -24,7 +24,6 @@ my $wc_pw      = $config->{'wc_password'};
 
 main();
 
-
 #-------------------------------------------------------------------------------
 #  Subroutines
 #-------------------------------------------------------------------------------
@@ -43,10 +42,11 @@ sub _dbh {
 sub _get_records
 {    # Get only records that have not been processed from the database
     my $schema     = shift;
-    my $to_process = $schema->resultset( 'Transaction' )
-        ->search( { # Not undef, not processed 
-                wc_status => [ undef, { '!=', 1 } ]
-            } );
+    my $to_process = $schema->resultset( 'Transaction' )->search(
+        {    # Not undef, not processed
+            wc_status => [ undef, { '!=', 1 } ]
+        }
+    );
     return $to_process;
 }
 
@@ -68,16 +68,19 @@ sub _process_records {    # Process each record
             }
         }
         else { # No subscription requested, so just mark processed and move on
-            #$record->subscription( 'No subscription requested' );
+                #$record->subscription( 'No subscription requested' );
             $record->wc_response( 'None requested' );
             $record->wc_status( 1 );
         }
+
+        # Send a one-off message to new contributors
+        my $wc_send_response = _send_message( $record );
+        $record->wc_send_response( $wc_send_response );
 
         # Commit the update
         $record->update;
     }
 }
-
 
 sub _determine_frequency
 {    # Niave way to determine the subscription preference, if any
@@ -95,10 +98,18 @@ sub _determine_frequency
 }
 
 sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
-    my $record          = shift;
-    my $frequency       = shift;
-    my $email           = $record->email;
-    my $date           = $record->trans_date;
+    my $record       = shift;
+    my $frequency    = shift;
+    my $email        = $record->email;
+    my $first        = $record->first_name;
+    my $last         = $record->last_name;
+    my $date         = $record->trans_date;
+    my $national     = 1;
+    my $newspriority = $record->pref_newspriority;
+    my $onetime      = '';
+    if ( !$record->plan_name ) {
+        $onetime = 1;
+    }
     my $search;
     my $result;
     my %args = (
@@ -127,7 +138,7 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         cmd => $search ? 'update' : 'sub',
         list_id => $wc_list_id,
         data =>
-            "email,custom_builder_sub_date,custom_builder,$frequency^$email,$date,1,1"
+            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriiority^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority"
     };
     my $tx = $ua->post( $API => form => $update_or_sub );
     if ( my $res = $tx->success ) {
@@ -152,5 +163,35 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
     # Just the subscriber ID please!
     $result =~ s/^(?<subscriber_id>\d+?)\s.*/$+{'subscriber_id'}/gi;
     chomp( $result );
+    return $result;
+}
+
+sub _send_message {
+    my $record = shift;
+    my $result;
+    my %wc_args = (
+        r       => $wc_realm,
+        p       => $wc_pw,
+        c       => 'send',
+        list_id => $wc_list_id,
+        format  => 99,
+    );
+    my $message_args = {
+        %wc_args,
+        to          => $record->email,
+        from        => '"The Tyee" <builders@thetyee.ca>',
+        charset     => 'ISO-8859-1',
+        template_id => '132542'
+    };
+
+    # Get the subscriber record, if there is one already
+    my $s = $ua->post( $API => form => $message_args );
+    if ( my $res = $s->success ) {
+        $result = $res->body;
+    }
+    else {
+        my ( $err, $code ) = $s->error;
+        $result = $code ? "$code response: $err" : "Connection error: $err";
+    }
     return $result;
 }
