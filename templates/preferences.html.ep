@@ -4,17 +4,23 @@
 %  my $err_freq = validation->error('pref_frequency');
 
 <div class="container" id="content-inner">
+    % if ( defined $self->stash('record') ) {
+    <div class="alert alert-success fade in" style="margin-top: 20px;"><i class="glyphicon glyphicon-check"></i>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    Your transaction was successfully processed. If you need to adjust your transaction, or you've experienced a problem, <a href="http://www.google.com/recaptcha/mailhide/d?k=01Lpo-7rwiM1MAnRgeZ5aaqA==&c=yGPyHyFeLT7FyKm1p8ePC5O5yYHihWV1fDsc7V5i1ME=">please send us a quick email</a>.
+    </div>
+    % }
+    % if ( $err_anon || $err_freq ) {
+    <p class="alert alert-danger">
+    Please correct the following problems with your selections:<br />
+    <%== $err_freq ? 'Subscription preference is required<br />' : '' %>
+    <%== $err_anon ? 'Acknoledgement choice is required<br />' : '' %>
+    </p>
+    % }
+
     <h1>Almost there! Time to vote...</h1>
     <p class="lead">Inform our reporting. Tell us what matters most to you...</p>
     <form action="preferences" method="POST" role="form">
-
-        % if ( $err_anon || $err_freq ) {
-        <p class="alert alert-danger">
-        Please correct the following problems with your selections:<br />
-        <%== $err_freq ? 'Subscription preference is required<br />' : '' %>
-        <%== $err_anon ? 'Acknoledgement choice is required<br />' : '' %>
-        </p>
-        %}
         <div class="form-group" id="newspriorities">
             <label for="pref_frequency">Choose one:</label>
             <div class="radio">
