@@ -143,5 +143,9 @@
                 event.preventDefault();
                 $('#monthly a:last').tab('show');
             });
+            $('a#link-tab-onetime').on('click', function( event ) {
+                event.preventDefault();
+                $('#onetime a:last').tab('show');
+            });
 %   end
 % end

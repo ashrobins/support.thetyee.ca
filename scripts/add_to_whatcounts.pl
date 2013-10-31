@@ -142,6 +142,7 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         data =>
             "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan"
     };
+    print Dumper( $update_or_sub );
     my $tx = $ua->post( $API => form => $update_or_sub );
     if ( my $res = $tx->success ) {
         $result = $res->body;
@@ -150,6 +151,7 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         my ( $err, $code ) = $tx->error;
         $result = $code ? "$code response: $err" : "Connection error: $err";
     }
+    print Dumper( $result );
 
 # For some reason, WhatCounts doesn't return the subscriber ID on creation, so we search again.
     if ( $result =~ /SUCCESS/ ) {
