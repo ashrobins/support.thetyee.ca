@@ -5,6 +5,6 @@ BEGIN;
 
     SET client_min_messages = 'warning';
     
-    ALTER TABLE support.transactions ADD COLUMN user_agent TEXT NULL;
+    ALTER TABLE support.transactions ADD COLUMN wc_send_response TEXT NULL;
 
 COMMIT;
