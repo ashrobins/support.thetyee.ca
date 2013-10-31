@@ -6,7 +6,7 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="form-monthly">
-            <p class="">Choose your monthly level:</p>
+            <p class="">Choose your <b>monthly</b> level:</p>
             <div class="btn-group" data-toggle="buttons">
                 % for my $p ( @$plans ) {
                 <label rel="popover" class="btn btn-primary btn-lg" data-trigger="hover" data-container="body" data-placement="top" data-content="<%= $p->description->text %>" data-original-title="<%= $p->name->text %>" title="">
@@ -15,7 +15,6 @@
 
                 % }
             </div>
-
             <div id="recurly-subscribe" style="display:none;">
             </div>
 
@@ -46,18 +45,24 @@
             <div id="transactionForm"></div>
         </div>
         <div class="tab-pane" id="form-offline">
-            <h3>Don't trust the Internet? Can't stand credit cards? We get it.</h3> 
-            <p> Here's how to support The Tyee without ever touching your keyboard.</p>
-            <p><strong>Option 1: Register with your credit card by phone:</strong></p>
-            <p>Call 604-689-7489, Monday - Friday, 10 am - 5 pm PST.</p>
-            <p><strong>Option 2: Send us a cheque (or monthly post-dated cheques):</strong></p>
-            <p>Cheques can be made out to Countercurrent Media Ltd. and mailed to:</p>
-            <p>
-            The Tyee<br />
-            PO Box 88484<br />
-            Vancouver, BC V6A 4A7<br />
-            </p>
-            <p>Please include with your cheque your full name, return address, phone number and email, plus indicate whether you would like your contribution to remain anonymous.</p>
+            <p>Don't trust the Internet? Can't stand credit cards? Does your organization (or you?) want to make a large contribution or one that matches reader contributions?</p> 
+            <p><strong>How to support The Tyee without ever touching your keyboard.</strong></p>
+            <div style="margin-left:20px;">
+                <p><b>Option 1: Register with your credit card by phone:</b></p>
+                <p>Call 604-689-7489, Monday - Friday, 10 am - 5 pm PST.</p>
+                <p><strong>Option 2: Send us a cheque (or monthly post-dated cheques):</strong></p>
+                <p>Cheques can be made out to Countercurrent Media Ltd. and mailed to:</p>
+                <p>
+                The Tyee<br />
+                PO Box 88484<br />
+                Vancouver, BC V6A 4A7<br />
+                </p>
+                <p>Please include with your cheque your full name, return address, phone number and email, plus indicate whether you would like your contribution to remain anonymous.</p>
+            </div>
+            <p><strong>How to set-up larger and matching contributions:</strong></p>
+            <div style="margin-left:20px;">
+                <p>Would your organization or business be interested in making a larger contribution? You can do so by cheque as outlined above, or if you're interested in offering a matching contribution, give us a shout. Matching contributions can really help ramp up a campaign, and your organization gets great exposure as a supporter of independent journalism in the process.  If this is you, contact Geoff D'Auria by <a href="mailto:gdauria@thetyee.ca">email</a> or phone (604-689-7409).<p>
+            </div>
         </div>
         <div id="transaction-secure" style="display:none;">
             <hr class="soften" />
