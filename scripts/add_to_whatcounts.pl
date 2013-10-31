@@ -138,7 +138,7 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         cmd => $search ? 'update' : 'sub',
         list_id => $wc_list_id,
         data =>
-            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriiority^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority"
+            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority"
     };
     my $tx = $ua->post( $API => form => $update_or_sub );
     if ( my $res = $tx->success ) {
