@@ -5,6 +5,7 @@ use Support::Schema;
 use Modern::Perl '2013';
 use Mojolicious::Lite;
 use Mojo::UserAgent;
+use Mojo::DOM;
 use utf8::all;
 use Try::Tiny;
 use Data::Dumper;
@@ -54,47 +55,100 @@ sub _process_records {    # Process each record
     my $to_process = shift;
     while ( my $record = $to_process->next ) {
         my $wc_response;
-
-        # Check each for a subscription request
         my $frequency = _determine_frequency( $record->pref_frequency );
-        if ( $frequency ) {    # A subscription request
-                               # Process the request
-            $wc_response = _create_or_update( $record, $frequency );
-            $record->wc_response( $wc_response );
-            if ( $record->wc_response =~ /^\d+$/ )
-            {                  # We got back a subscriber ID, so we're good.
-                               # Not mark the record as processed
-                $record->wc_status( 1 );
-            }
-        }
-        else { # No subscription requested, so just mark processed and move on
-                #$record->subscription( 'No subscription requested' );
-            $record->wc_response( 'None requested' );
+        # _determine_frequency will always return a frequency here,
+        # because we want all records to be stored in WhatCounts
+        $wc_response = _create_or_update( $record, $frequency );
+        $record->wc_response( $wc_response );
+        if ( $record->wc_response =~ /^\d+$/ )
+        {       # We got back a subscriber ID, so we're good.
+                # Mark the record as processed.
             $record->wc_status( 1 );
         }
 
-        # Send a one-off message to new contributors
-        my $wc_send_response = _send_message( $record );
-        $record->wc_send_response( $wc_send_response );
-
-        # Commit the update
+        # Commit the update so far
         $record->update;
+
+        if ( $record->wc_status == 1 ) {
+        # Send a one-off message to new contributors
+        # assuming we have the information we need
+            my $data_check
+                = _check_subscriber_details( $record->wc_response );
+            if ( $data_check && !$record->wc_send_response ) { # Only those not already e-mailed
+                say "We're going to send a message to subscriber: "
+                    . $record->email . ' (Subscriber ID: ' . $record->wc_response . ')';
+
+                my $wc_send_response = _send_message( $record );
+                $record->wc_send_response( $wc_send_response );
+                $record->update;
+            }
+        }
     }
 }
 
+#-------------------------------------------------------------------------------
+#  Subroutines
+#-------------------------------------------------------------------------------
 sub _determine_frequency
 {    # Niave way to determine the subscription preference, if any
     my $subscription = shift;
     my $frequency;
-    if ( $subscription =~ /weekly/i ) {
+    if ( defined $subscription && $subscription =~ /weekly/i ) {
         $frequency = 'custom_pref_enews_weekly';
     }
-    elsif ( $subscription =~ /daily/i ) {
+    elsif ( defined $subscription && $subscription =~ /daily/i ) {
         $frequency = 'custom_pref_enews_daily';
     }
-
-    # Return undefined for no frequency selection (thus, no subscription)
+    else { # This is used to ensure the record gets added to WhatCounts
+        $frequency = 'custom_pref_enews_nochoice';
+    }
     return $frequency;
+}
+
+sub _get_subscriber_details {
+    my $subscriber_id = shift;
+    # Get the subscriber details as XML
+    my $search;
+    my $result;
+    my %args = (
+        r => $wc_realm,
+        p => $wc_pw,
+    );
+    my $search_args = {
+        %args,
+        c             => 'detail',
+        subscriber_id => $subscriber_id,
+        output_format => 'xml',
+        header        => 1,
+    };
+
+    # Get the subscriber record, if there is one already
+    my $s = $ua->post( $API => form => $search_args );
+    if ( my $res = $s->success ) {
+        $result = $res->body;
+    }
+    else {
+        my ( $err, $code ) = $s->error;
+        $result = $code ? "$code response: $err" : "Connection error: $err";
+    }
+    return $result;
+}
+
+sub _check_subscriber_details {
+    my $subscriber_id  = shift;
+    my $subscriber_xml = _get_subscriber_details( $subscriber_id );
+    # use Mojo::Dom to parse the XML
+    my $dom            = Mojo::DOM->new( $subscriber_xml );
+    # check for builder_amount, builder_onetime, etc.
+    my $builder_level   = $dom->at( 'builder_level' );
+    my $builder_national_2013 = $dom->at( 'builder_national_2013' );
+    if ( $builder_national_2013 && $builder_level ) {
+        # Return 1 for good, 0 for bad.
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }
 
 sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
@@ -105,12 +159,20 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
     my $last         = $record->last_name;
     my $date         = $record->trans_date;
     my $national     = 1;
-    my $newspriority = $record->pref_newspriority;
+    my $newspriority = $record->pref_newspriority // '';
     my $level        = $record->amount_in_cents / 100;
-    my $plan         = $record->plan_code;
+    my $plan         = $record->plan_code // '';
     my $onetime      = '';
     if ( !$record->plan_name ) {
         $onetime = 1;
+    }
+    my $anon;
+    if ( defined $record->pref_anonymous && $record->pref_anonymous eq 'Yes' )
+    {
+        $anon = 0;
+    }
+    else {
+        $anon = 1;
     }
     my $search;
     my $result;
@@ -140,9 +202,8 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         cmd => $search ? 'update' : 'sub',
         list_id => $wc_list_id,
         data =>
-            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan"
+            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan,custom_builder_is_anonymous^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan,$anon"
     };
-    print Dumper( $update_or_sub );
     my $tx = $ua->post( $API => form => $update_or_sub );
     if ( my $res = $tx->success ) {
         $result = $res->body;
@@ -151,7 +212,6 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         my ( $err, $code ) = $tx->error;
         $result = $code ? "$code response: $err" : "Connection error: $err";
     }
-    print Dumper( $result );
 
 # For some reason, WhatCounts doesn't return the subscriber ID on creation, so we search again.
     if ( $result =~ /SUCCESS/ ) {
