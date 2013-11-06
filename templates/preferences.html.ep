@@ -14,7 +14,7 @@
     <p class="alert alert-danger">
     Please correct the following problems with your selections:<br />
     <%== $err_freq ? 'Subscription preference is required<br />' : '' %>
-    <%== $err_anon ? 'Acknowledgement choice is required<br />' : '' %>
+    <%== $err_anon ? 'Acknoledgement choice is required<br />' : '' %>
     </p>
     % }
 
@@ -89,8 +89,8 @@
         </div>
         <div class="form-group">
             <label for="pref_frequency">Would you like our stories emailed straight to your inbox?</label>
-            <div class="btn-group">
-                <label class="btn btn-primary" for="daily">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active" for="daily">
                     <input checked="1" id="daily" name="pref_frequency" type="radio" value="Daily headlines" />
                     Daily
                 </label>                
@@ -111,12 +111,12 @@
         <br clear="all" />
         <div class="form-group">
             <label for="pref_anonymous">We like to sometimes acknowledge our supporters publicly. May we acknowledge your contribution?</label>
-            <div class="btn-group">
-                <label class="btn btn-primary" for="anon-no">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary bt-lg active" for="anon-no">
                     <input checked="1" id="anon-no" name="pref_anonymous" type="radio" value="Yes" />
                     Yes
                 </label>            
-                <label class="btn btn-primary" for="anon-yes">
+                <label class="btn btn-primary bt-lg" for="anon-yes">
                     <input id="anon-yes" name="pref_anonymous" type="radio" value="No" />
                     No thanks
                 </label>
