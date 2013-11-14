@@ -1,5 +1,7 @@
 % layout 'default', title => 'Welcome to the team. Share the news -- The Tyee';
 
+
+
 <div class="container" id="content-inner">
     <h1>Welcome to the team</h1>
     <p class="lead">
@@ -54,3 +56,6 @@
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=115808375175879";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "40ef0d0c-5826-4d11-a6ac-266317187462", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
