@@ -6,6 +6,7 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="form-monthly">
+                <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i> Enter your monthly amount. $15/month or more gets you the <a href="http://thetyee.ca/About/National/Paper-Dolls/">Political Party Leader Paper Dolls</a>.</p>
             <p class="">Choose your <b>monthly</b> level:</p>
             <div class="btn-group" data-toggle="buttons">
                 % for my $p ( @$plans ) {

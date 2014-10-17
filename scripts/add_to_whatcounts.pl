@@ -201,6 +201,8 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         # If we found a subscriber, it's an update, if not a subscribe
         cmd => $search ? 'update' : 'sub',
         list_id => $wc_list_id,
+        override_confirmation => '1',
+        force_sub => '1',
         data =>
             "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan,custom_builder_is_anonymous^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan,$anon"
     };
@@ -239,13 +241,14 @@ sub _send_message {
         c       => 'send',
         list_id => $wc_list_id,
         format  => 99,
+        force_sub => 1,
     );
     my $message_args = {
         %wc_args,
         to          => $record->email,
         from        => '"The Tyee" <builders@thetyee.ca>',
         charset     => 'ISO-8859-1',
-        template_id => '132542'
+        template_id => '703'
     };
 
     # Get the subscriber record, if there is one already
