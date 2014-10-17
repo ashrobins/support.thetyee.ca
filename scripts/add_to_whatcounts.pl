@@ -56,12 +56,13 @@ sub _process_records {    # Process each record
     while ( my $record = $to_process->next ) {
         my $wc_response;
         my $frequency = _determine_frequency( $record->pref_frequency );
+
         # _determine_frequency will always return a frequency here,
         # because we want all records to be stored in WhatCounts
         $wc_response = _create_or_update( $record, $frequency );
         $record->wc_response( $wc_response );
         if ( $record->wc_response =~ /^\d+$/ )
-        {       # We got back a subscriber ID, so we're good.
+        {    # We got back a subscriber ID, so we're good.
                 # Mark the record as processed.
             $record->wc_status( 1 );
         }
@@ -70,13 +71,17 @@ sub _process_records {    # Process each record
         $record->update;
 
         if ( $record->wc_status == 1 ) {
-        # Send a one-off message to new contributors
-        # assuming we have the information we need
+
+            # Send a one-off message to new contributors
+            # assuming we have the information we need
             my $data_check
                 = _check_subscriber_details( $record->wc_response );
-            if ( $data_check && !$record->wc_send_response ) { # Only those not already e-mailed
+            if ( $data_check && !$record->wc_send_response )
+            {    # Only those not already e-mailed
                 say "We're going to send a message to subscriber: "
-                    . $record->email . ' (Subscriber ID: ' . $record->wc_response . ')';
+                    . $record->email
+                    . ' (Subscriber ID: '
+                    . $record->wc_response . ')';
 
                 my $wc_send_response = _send_message( $record );
                 $record->wc_send_response( $wc_send_response );
@@ -99,7 +104,7 @@ sub _determine_frequency
     elsif ( defined $subscription && $subscription =~ /daily/i ) {
         $frequency = 'custom_pref_enews_daily';
     }
-    else { # This is used to ensure the record gets added to WhatCounts
+    else {    # This is used to ensure the record gets added to WhatCounts
         $frequency = 'custom_pref_enews_nochoice';
     }
     return $frequency;
@@ -107,6 +112,7 @@ sub _determine_frequency
 
 sub _get_subscriber_details {
     my $subscriber_id = shift;
+
     # Get the subscriber details as XML
     my $search;
     my $result;
@@ -137,12 +143,15 @@ sub _get_subscriber_details {
 sub _check_subscriber_details {
     my $subscriber_id  = shift;
     my $subscriber_xml = _get_subscriber_details( $subscriber_id );
+
     # use Mojo::Dom to parse the XML
-    my $dom            = Mojo::DOM->new( $subscriber_xml );
+    my $dom = Mojo::DOM->new( $subscriber_xml );
+
     # check for builder_amount, builder_onetime, etc.
-    my $builder_level   = $dom->at( 'builder_level' );
+    my $builder_level         = $dom->at( 'builder_level' );
     my $builder_national_2013 = $dom->at( 'builder_national_2013' );
     if ( $builder_national_2013 && $builder_level ) {
+
         # Return 1 for good, 0 for bad.
         return 1;
     }
@@ -200,9 +209,10 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
 
         # If we found a subscriber, it's an update, if not a subscribe
         cmd => $search ? 'update' : 'sub',
-        list_id => $wc_list_id,
+        list_id               => $wc_list_id,
         override_confirmation => '1',
-        force_sub => '1',
+        force_sub             => '1',
+        format                => '2',
         data =>
             "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan,custom_builder_is_anonymous^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan,$anon"
     };
@@ -236,11 +246,11 @@ sub _send_message {
     my $record = shift;
     my $result;
     my %wc_args = (
-        r       => $wc_realm,
-        p       => $wc_pw,
-        c       => 'send',
-        list_id => $wc_list_id,
-        format  => 99,
+        r         => $wc_realm,
+        p         => $wc_pw,
+        c         => 'send',
+        list_id   => $wc_list_id,
+        format    => 99,
         force_sub => 1,
     );
     my $message_args = {
