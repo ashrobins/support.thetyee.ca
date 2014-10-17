@@ -241,13 +241,14 @@ sub _send_message {
         c       => 'send',
         list_id => $wc_list_id,
         format  => 99,
+        force_sub => 1,
     );
     my $message_args = {
         %wc_args,
         to          => $record->email,
         from        => '"The Tyee" <builders@thetyee.ca>',
         charset     => 'ISO-8859-1',
-        template_id => '132542'
+        template_id => '703'
     };
 
     # Get the subscriber record, if there is one already
