@@ -201,6 +201,8 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         # If we found a subscriber, it's an update, if not a subscribe
         cmd => $search ? 'update' : 'sub',
         list_id => $wc_list_id,
+        override_confirmation => '1',
+        force_sub => '1',
         data =>
             "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan,custom_builder_is_anonymous^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan,$anon"
     };
