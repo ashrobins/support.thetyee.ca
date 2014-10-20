@@ -71,8 +71,7 @@ helper recurly_get_signature => sub {
 helper recurly_get_plans => sub {
     my $self   = shift;
     my $filter = shift;
-    my $res = $ua->get( $API . '/plans/' => { Accept => 'application/xml' } )
-        ->res;
+    my $res = $ua->get( $API . '/plans/' => { Accept => 'application/xml' } )->res;
     my $xml      = $res->body;
     my $dom      = Mojo::DOM->new( $xml );
     my $plans    = $dom->find( 'plan' );
@@ -136,7 +135,7 @@ group {
                 });
             $self->param({ amount => '0' });
             $amount = '';
-            $self->redirect_to('national');
+            $self->redirect_to('');
         };
         my $amount_in_cents;
         if ( $amount ) {
@@ -192,11 +191,13 @@ post '/successful_transaction' => sub {
     my $account_code
         = $self->recurly_get_account_code( $dom->at( 'account' ) );
     my $account      = $self->recurly_get_account_details( $account_code );
+    $self->app->log->debug( Dumper( $account ) );
     my $billing_info = $self->recurly_get_billing_details( $account_code );
     my $transaction_details = {
         email      => $account->at( 'email' )->text,
         first_name => $account->at( 'first_name' )->text,
         last_name  => $account->at( 'last_name' )->text,
+        hosted_login_token => $account->at( 'hosted_login_token' )->text,
         trans_date => $dom->at( 'created_at' )
         ? $dom->at( 'created_at' )->text
         : $dom->at( 'activated_at' ) ? $dom->at( 'activated_at' )->text
