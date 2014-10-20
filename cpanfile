@@ -1,5 +1,10 @@
 requires 'Mojolicious', '==4.50';
 requires 'Try::Tiny', '0';
+requires 'DBD::Pg';
 requires 'DBIx::Class', '0';
 requires 'DBIx::Class::TimeStamp', '0';
 requires 'Mojolicious::Plugin::Util::RandomString', '0';
+requires 'IO::Socket::SSL', '1.75';
+requires 'App::Sqitch';
+requires 'Config::General';
+requires 'DBIx::Class::Schema::Loader';
