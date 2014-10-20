@@ -854,6 +854,20 @@ DISTRIBUTIONS
     requirements:
       DateTime 0
       DateTime::Format::Builder 0.6
+  DateTime-Format-Pg-0.16010
+    pathname: D/DM/DMAKI/DateTime-Format-Pg-0.16010.tar.gz
+    provides:
+      DateTime::Format::Pg 0.16010
+    requirements:
+      CPAN::Meta 0
+      CPAN::Meta::Prereqs 0
+      DateTime 0.10
+      DateTime::Format::Builder 0.72
+      DateTime::TimeZone 0.05
+      ExtUtils::CBuilder 0
+      ExtUtils::MakeMaker 6.36
+      Module::Build 0.38
+      Test::More 0
   DateTime-Format-SQLite-0.11
     pathname: C/CF/CFAERBER/DateTime-Format-SQLite-0.11.tar.gz
     provides:
@@ -2230,6 +2244,21 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Memoize 0.52
+  Modern-Perl-1.20140107
+    pathname: C/CH/CHROMATIC/Modern-Perl-1.20140107.tar.gz
+    provides:
+      Modern::Perl 1.20140107
+    requirements:
+      ExtUtils::MakeMaker 6.30
+      IO::File 0
+      IO::Handle 0
+      Module::Build 0.3601
+      autodie 2.22
+      feature 0
+      mro 0
+      perl 5.010
+      strict 0
+      warnings 0
   Module-Build-0.4210
     pathname: L/LE/LEONT/Module-Build-0.4210.tar.gz
     provides:
@@ -3639,3 +3668,22 @@ DISTRIBUTIONS
       indirect 0
       multidimensional 0
       perl 5.006
+  utf8-all-0.015
+    pathname: D/DO/DOHERTY/utf8-all-0.015.tar.gz
+    provides:
+      utf8::all 0.015
+    requirements:
+      Cwd 0
+      Encode 0
+      File::Find 0
+      Import::Into 0
+      Module::Build 0.28
+      Symbol 0
+      charnames 0
+      feature 0
+      open 0
+      parent 0
+      perl 5.010
+      strict 0
+      utf8 0
+      warnings 0

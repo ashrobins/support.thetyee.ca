@@ -1,3 +1,6 @@
+requires 'Modern::Perl';
+requires 'utf8::all';
+requires 'DateTime::Format::Pg';
 requires 'Mojolicious', '==4.50';
 requires 'Try::Tiny', '0';
 requires 'DBD::Pg';
