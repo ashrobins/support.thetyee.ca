@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 use Mojo::UserAgent;
-use Data::uumper;
+use Data::Dumper;
 use Mojo::Util qw(b64_encode url_escape url_unescape hmac_sha1_sum);
 use Mojo::URL;
 use Try::Tiny;
