@@ -149,8 +149,9 @@ sub _check_subscriber_details {
 
     # check for builder_amount, builder_onetime, etc.
     my $builder_level         = $dom->at( 'builder_level' );
-    my $builder_national_2013 = $dom->at( 'builder_national_2013' );
-    if ( $builder_national_2013 && $builder_level ) {
+    my $hosted_login_token    = $dom->at( 'builder_hosted_login_token' );
+    #my $builder_national_2013 = $dom->at( 'builder_national_2013' );
+    if ( $builder_level && $hosted_login_token ) {
 
         # Return 1 for good, 0 for bad.
         return 1;
@@ -171,6 +172,7 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
     my $newspriority = $record->pref_newspriority // '';
     my $level        = $record->amount_in_cents / 100;
     my $plan         = $record->plan_code // '';
+    my $hosted_login_token = $record->hosted_login_token;
     my $onetime      = '';
     if ( !$record->plan_name ) {
         $onetime = 1;
@@ -214,7 +216,7 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
         force_sub             => '1',
         format                => '2',
         data =>
-            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_national_2013,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan,custom_builder_is_anonymous^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan,$anon"
+            "email,first,last,custom_builder_sub_date,custom_builder,$frequency,custom_builder_regular,custom_builder_onetime,custom_builder_national_newspriority,custom_builder_level,custom_builder_plan,custom_builder_is_anonymous,custom_builder_hosted_login_token^$email,$first,$last,$date,1,1,$national,$onetime,$newspriority,$level,$plan,$anon,$hosted_login_token"
     };
     my $tx = $ua->post( $API => form => $update_or_sub );
     if ( my $res = $tx->success ) {
@@ -245,6 +247,10 @@ sub _create_or_update {   # Post the vitals to WhatCounts, return the resposne
 sub _send_message {
     my $record = shift;
     my $result;
+    my $amount_in_cents = $record->amount_in_cents;
+    my $amount = $amount_in_cents / 100;
+    my $plan_code = $record->plan_code;
+    my $hosted_login_token = $record->hosted_login_token;
     my %wc_args = (
         r         => $wc_realm,
         p         => $wc_pw,
@@ -258,7 +264,8 @@ sub _send_message {
         to          => $record->email,
         from        => '"The Tyee" <builders@thetyee.ca>',
         charset     => 'ISO-8859-1',
-        template_id => '703'
+        template_id => '703',
+        data        => "amount,plan_code,hosted_login_token^$amount,$plan_code,$hosted_login_token"
     };
 
     # Get the subscriber record, if there is one already
