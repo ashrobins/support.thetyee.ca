@@ -74,8 +74,7 @@
 
             $( "label.btn" ).on( "click", function( event ) {
                 var amount = $(this).text();
-                $('input#amount-monthly').attr('placeholder', amount);
-                var selectedInput = $(this).context.control;
+                var selectedInput = $('input', this)[0];
                 showSubscriptionForm( selectedInput.value );
             });
             $( "a#amount-change" ).on( "click", function( event ) {
