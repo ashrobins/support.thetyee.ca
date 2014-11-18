@@ -39,7 +39,8 @@ helper find_or_new => sub {
     try {
         $result = $dbh->txn_do(
             sub {
-                my $rs = $dbh->resultset( 'Transaction' )->find_or_new( {%$doc} );
+                my $rs = $dbh->resultset( 'Transaction' )
+                    ->find_or_new( {%$doc} );
                 unless ( $rs->in_storage ) {
                     $rs->insert;
                 }
@@ -127,35 +128,38 @@ group {
         my $self    = shift;
         my $onetime = $self->param( 'onetime' );
         my $amount  = $self->param( 'amount' );
-        my $campaign = $self->param( 'campaign' ) || $self->flash('campaign');
+        my $campaign
+            = $self->param( 'campaign' ) || $self->flash( 'campaign' );
         if ( $self->req->method eq 'POST' && $amount =~ /\D/ ) {
-            $self->flash({ 
-                    error => 'Amount needs to be a whole number',
-                    onetime => 'onetime',
+            $self->flash(
+                {   error    => 'Amount needs to be a whole number',
+                    onetime  => 'onetime',
                     campaign => $campaign,
-                });
-            $self->param({ amount => '0' });
+                }
+            );
+            $self->param( { amount => '0' } );
             $amount = '';
-            $self->redirect_to('national');
-        };
+            $self->redirect_to( '' );
+        }
         my $amount_in_cents;
         if ( $amount ) {
             $amount_in_cents = $amount * 100;
         }
-        my $options = { # RecurlyJS signature options
+        my $options = {    # RecurlyJS signature options
             'transaction[currency]'        => 'CAD',
             'transaction[amount_in_cents]' => $amount_in_cents,
-            'transaction[description]'     => 'Support for fact-based independent journalism at The Tyee',
+            'transaction[description]' =>
+                'Support for fact-based independent journalism at The Tyee',
         };
         my $recurly_sig = $self->recurly_get_signature( $options );
-        my $plans       = $self->recurly_get_plans( $config->{'recurly_get_plans_filter'} );
+        my $plans       = $self->recurly_get_plans(
+            $config->{'recurly_get_plans_filter'} );
         $self->stash(
-            {   
-                plans       => $plans,
+            {   plans       => $plans,
                 amount      => $amount,
-                onetime     => $onetime || $self->flash('onetime'),
+                onetime     => $onetime || $self->flash( 'onetime' ),
                 recurly_sig => $recurly_sig,
-                error       => $self->flash('error'),
+                error       => $self->flash( 'error' ),
             }
         );
         $self->flash( campaign => $campaign );
@@ -163,25 +167,24 @@ group {
 
     any [qw(GET POST)] => '/' => sub {
         my $self = shift;
-    } => 'national';
+    } => 'builders';
 
     any [qw(GET POST)] => '/builders' => sub {
-        my $self    = shift;
+        my $self = shift;
         $self->stash( body_id => 'builders' );
     } => 'builders';
 
     any [qw(GET POST)] => '/national' => sub {
-        my $self    = shift;
+        my $self = shift;
         $self->stash( body_id => 'national' );
     } => 'national';
 };
 
-
-
 post '/successful_transaction' => sub {
     my $self          = shift;
-    my $campaign      = $self->flash('campaign');
+    my $campaign      = $self->flash( 'campaign' );
     my $recurly_token = $self->param( 'recurly_token' );
+
     # Request object from Recurly based on token
     my $res
         = $ua->get( $API
@@ -194,10 +197,11 @@ post '/successful_transaction' => sub {
     my $account      = $self->recurly_get_account_details( $account_code );
     my $billing_info = $self->recurly_get_billing_details( $account_code );
     my $transaction_details = {
-        email      => $account->at( 'email' )->text,
-        first_name => $account->at( 'first_name' )->text,
-        last_name  => $account->at( 'last_name' )->text,
-        trans_date => $dom->at( 'created_at' )
+        email              => $account->at( 'email' )->text,
+        first_name         => $account->at( 'first_name' )->text,
+        last_name          => $account->at( 'last_name' )->text,
+        hosted_login_token => $account->at( 'hosted_login_token' )->text,
+        trans_date         => $dom->at( 'created_at' )
         ? $dom->at( 'created_at' )->text
         : $dom->at( 'activated_at' ) ? $dom->at( 'activated_at' )->text
         : '',
@@ -211,55 +215,50 @@ post '/successful_transaction' => sub {
         plan_code => $dom->at( 'plan plan_code' )
         ? $dom->at( 'plan plan_code' )->text
         : '',
-        campaign => $campaign,
+        campaign   => $campaign,
         user_agent => $self->req->headers->user_agent,
     };
     my $result = $self->find_or_new( $transaction_details );
     $transaction_details->{'id'} = $result->id;
-    $self->app->log->info( Dumper( $transaction_details ) ); 
-    $self->flash(
-        {   
-            transaction_details => $transaction_details,
-        }
-    );
+    $self->flash( { transaction_details => $transaction_details, } );
     $self->redirect_to( 'preferences' );
 } => 'success';
 
 any [qw(GET POST)] => '/preferences' => sub {
     my $self   = shift;
     my $record = $self->flash( 'transaction_details' );
-    $self->app->log->info( Dumper( $record ) ); 
-    $self->stash({ record => $record, });
-    $self->flash({ transaction_details => $record });
+    $self->stash( { record => $record, } );
+    $self->flash( { transaction_details => $record } );
 
-    if ( $self->req->method eq 'POST' && $record ) { # Submitted form
-        # Validate parameters with custom check
+    if ( $self->req->method eq 'POST' && $record ) {    # Submitted form
+            # Validate parameters with custom check
         my $validation = $self->validation;
-        $validation->required('pref_frequency');
-        $validation->required('pref_anonymous');
+        $validation->required( 'pref_frequency' );
+        $validation->required( 'pref_anonymous' );
+
         # Render form again if validation failed
         $self->app->log->info( Dumper $validation ) if $validation->has_error;
-        $self->app->log->info( Dumper $self->req->params->to_hash ) if $validation->has_error;
-        return $self->render('preferences') if $validation->has_error;
+        $self->app->log->info( Dumper $self->req->params->to_hash )
+            if $validation->has_error;
+        return $self->render( 'preferences' ) if $validation->has_error;
 
-        $self->app->log->info( Dumper $self->req->params->to_hash );
         my $update = $self->find_or_new( $record );
         $update->update( $self->req->params->to_hash );
-        $self->flash({ transaction_details => $record });
+        $self->flash( { transaction_details => $record } );
         $self->redirect_to( 'share' );
     }
 } => 'preferences';
 
 get '/share' => sub {
-    my $self = shift;
-    my $transaction_details = $self->flash('transaction_details');
+    my $self                = shift;
+    my $transaction_details = $self->flash( 'transaction_details' );
     $self->stash( { transaction_details => $transaction_details } );
     $self->render( 'share' );
 } => 'share';
 
-get '/plans' => sub { # List plans; Not used
+get '/plans' => sub {    # List plans; Not used
     my $self = shift;
-    $self->render_not_found; # Doesn't exist for now
+    $self->render_not_found;    # Doesn't exist for now
     my $res
         = $ua->get( $API . 'plans' => { Accept => 'application/xml' } )->res;
     my $xml   = $res->body;

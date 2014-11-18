@@ -12,3 +12,5 @@ transactions [transactions@v0.3.0 schema] 2013-10-24T00:44:48Z Phillip Smith <ps
 transactions [transactions@v0.3.4 schema] 2013-10-25T16:49:48Z Phillip Smith <ps@phillipadsmith.com># Add column to store the requests user agent
 @v1.0.4 2013-10-30T23:05:50Z Phillip Smith <ps@phillipadsmith.com> # Tag v1.0.4
 transactions [transactions@v1.0.4 schema] 2013-10-30T23:06:22Z Phillip Smith <ps@phillipadsmith.com># Add column for wc_send_response
+@v1.0.5 2014-10-19T19:36:08Z Phillip Smith <ps@phillipadsmith.com> # Adding hosted login token form
+transactions [transactions@v1.0.5] 2014-10-20T16:17:27Z Phillip Smith <ps@phillipadsmith.com># Adding column for recurly hosted login token

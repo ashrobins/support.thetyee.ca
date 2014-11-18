@@ -6,3 +6,4 @@ schema.conf
 sqitch.conf
 codekit-config.json
 NOTES.md
+local
