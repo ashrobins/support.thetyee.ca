@@ -8,7 +8,7 @@ The amazing, awe-inspiring, crowd-funding platform for The Tyee
 
 ## Installation
 
-0. Install Perl & PostgreSQL (if you need them)
+### 0. Install Perl & PostgreSQL (if you need them)
 
 These days, I recommend using [plenv](https://github.com/tokuhirom/plenv) to install a local version of Perl that doesn't muck with your system perl binary.
 
@@ -30,7 +30,7 @@ For PostgreSQL, if you're on an Apple product, you'll probably want to use [home
 
 Once you've got those working, move on!
 
-1. Get the source / sub-modules
+### 1. Get the source / sub-modules
 
 `git clone https://github.com/phillipadsmith/support.thetyee.ca.git`
 
@@ -38,7 +38,7 @@ Once you've got those working, move on!
 
 `git submodule init && git submodule update` (this installs the `public` files)
 
-2. Install the JavaScript dependencies
+### 2. Install the JavaScript dependencies
 
 If you don't have [NPM](https://www.npmjs.org/) installed, you'll need to do that first by installing [Node.js](http://nodejs.org/). Just download and install the package that's available for your operating system [from the Node website](http://nodejs.org/).
 
@@ -52,7 +52,7 @@ Then, to install the project's JavaScript dependencies, run:
 
 You should see output relating to Bootstrap, jQuery, and so on.
 
-3. Install the Perl dependencies
+### 3. Install the Perl dependencies
 
 From here, if you don't have a global install of [cpanm](https://github.com/miyagawa/cpanminus), you'll want to install that with the command `plenv install-cpanm` (this assumes that you installed Perl with `plenv` as described above).
 
@@ -70,7 +70,7 @@ At this point, you should probably go make a coffee or get a glass of wine or so
 
 When that finishes, you should have a `local` directory full of libraries.
 
-4. Get and edit the configuration files
+### 4. Get and edit the configuration files
 
 Get them from the secret repository!
 
@@ -82,7 +82,7 @@ You'll need:
 You'll want to udpate the values in `app.development.json` and `sqitch/sqitch.conf` to point to your local PostgreSQL database.
 
 
-5. Load the database schema with Sqitch
+### 5. Load the database schema with Sqitch
 
 Next, you'll want to load the required table(s) into PostgreSQL using sqitch. You can do that like so:
 
@@ -100,7 +100,7 @@ Deploying changes to db:pg:tyeedb_dev
   + transactions @v1.0.5 .. ok
   + transactions .......... ok
 
-6. Start the development server
+### 6. Start the development server
 
 At this point you should have everything needed to start developing. Run the app in development mode with:
 
@@ -110,7 +110,7 @@ And, if everythign worked, you should see:
 
 `Server available at http://127.0.0.1:3000.`
 
-7. Bask in the glory of local development!
+### 7. Bask in the glory of local development!
 
 Do NOT pass go. Do NOT collect $200. Just enjoy the moment. 
 
