@@ -32,7 +32,9 @@ Once you've got those working, move on!
 
 ### 1. Get the source / sub-modules
 
-`git clone https://github.com/phillipadsmith/support.thetyee.ca.git`
+First, fork the repository so that you have your own copy. Then:
+
+`git clone git@github.com:yourusername/support.thetyee.ca.git`
 
 `git checkout develop` (Always work on the `develop` branch while developing!)
 
@@ -117,3 +119,9 @@ Do NOT pass go. Do NOT collect $200. Just enjoy the moment.
 The development server will reload the app when any of the files are edited. So you can just edit the template files and the single-file application to your needs and refresh your browser to see the results. 
 
 Errors will be written to your terminal, as well as shown in the browser.
+
+### 8. Send a pull request with the changes
+
+When you're done making changes, create a new pull request pointing from the branch that you're working on lcoally (probaby `develop`) pointing to the `develop` branch at https://github.com/phillipadsmith/support.thetyee.ca
+
+Submit the pull request and congratulate yourself on a job well done. :)
