@@ -6,6 +6,7 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="form-monthly">
+                <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i> Enter your monthly amount.</p>
             <p class="">Choose your <b>monthly</b> level:</p>
             <div class="btn-group" data-toggle="buttons">
                 % for my $p ( @$plans ) {
@@ -24,7 +25,7 @@
                 <% if ( $error ) { %>
                 <p class="alert alert-danger"><i class="glyphicon glyphicon-exclamation-sign">&nbsp;</i>Please enter a whole number. No decimal places or other characters, please.</p>
                 <% } %>
-                <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i> Enter your one-time amount. $50 or more gets you the <a href="http://thetyee.ca/About/National/Paper-Dolls/">Political Party Leader Paper Dolls</a>.</p>
+                <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i> Enter your one-time amount.</p>
                 <div class="form-group">
                     <input type="hidden" id="onetime" name="onetime" value="true" />
                     <div class="input-group">
