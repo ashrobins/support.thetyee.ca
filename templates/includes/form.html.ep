@@ -6,7 +6,6 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane" id="form-monthly">
-                <p class="alert alert-info"><i class="glyphicon glyphicon-ok-circle">&nbsp;</i> Enter your monthly amount.</p>
             <p class="">Choose your <b>monthly</b> level:</p>
             <div class="btn-group" data-toggle="buttons">
                 % for my $p ( @$plans ) {
