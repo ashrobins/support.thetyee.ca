@@ -130,7 +130,7 @@ Submit the pull request and congratulate yourself on a job well done. :)
 
 ## Updating the preview site
 
-## 1. Updating the app
+### 1. Updating the app
 
 First, you need to update the files on the server. 
 
@@ -138,9 +138,9 @@ Using terminal, log in to the remote server (thetyee.ca)
 
 `cd preview.support.thetyee.ca/www/`
 
-Double check you're on the develop branch
+Make sure you're on the develop branch: 
 
-'git branch'
+`git branch`
 
 Then sync up!
 
@@ -152,7 +152,7 @@ Then, redeploy the application:
 
 MOJE_MODE tells the app which config file to use. I.e. `MOJO_MODE='preview'` will look for the app.preview.json file. 
 
-## 2. Updating the static files
+### 2. Updating the static files
 
 Static files stored on a different part of the server. 
 
@@ -162,7 +162,7 @@ To access, log in to thetyee.ca
 
 `git pull`
 
-## 3. Version Control
+### 3. Version Control
 
 For more substantial changes, you'll want to create a new directory. 
 
