@@ -173,6 +173,7 @@ Log in to thetyee.ca
 `git clone https://github.com/phillipadsmith/support.thetyee.ca-static.git v[version number]`
 
 `cd v[version number]`
+
 `bower install`
 
 
